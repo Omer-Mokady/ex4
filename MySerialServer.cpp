@@ -8,7 +8,7 @@
 MySerialServer::~MySerialServer() {
 
 }
-
+//test
 void MySerialServer::open(int portNumber, ClientHandler *clientHandler) {
   int socketfd = socket(AF_INET, SOCK_STREAM, 0);
   if (socketfd == -1) {
