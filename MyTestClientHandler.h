@@ -4,19 +4,24 @@
 
 #ifndef EX4__MYTESTCLIENTHANDLER_H_
 #define EX4__MYTESTCLIENTHANDLER_H_
+#include <string>
 #include "ClientHandler.h"
 #include "Solver.h"
 #include "StringReverser.h"
-#include <string>
+#include "CacheManager.h"
+
 
 using namespace std;
-//template<typename Problem, typename Solution>
+template <typename S>
+
 class MyTestClientHandler : public ClientHandler {
  public:
+  MyTestClientHandler();
   ~MyTestClientHandler(){};
   void handleClient(int socketNumber);
  private:
-  StringReverser solver; //need to change it somehow to Solver solver instead of StringReverser solver.
+  StringReverser *solver;
+  FileCacheManager<S> cache;
 };
 
 #endif //EX4__MYTESTCLIENTHANDLER_H_
