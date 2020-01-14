@@ -5,7 +5,9 @@
 #ifndef EX4__CLIENTHANDLER_H_
 #define EX4__CLIENTHANDLER_H_
 #include <iostream>
-
+#include <unistd.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
 /**
    * ClientHandler Interface
    */
