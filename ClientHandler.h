@@ -12,8 +12,7 @@
 class ClientHandler {
 
  public:
-  virtual void open(int port) = 0;
-  virtual void handleClient(InputStream input, OutputStream output) = 0;
+  virtual void handleClient(int socketNumber) = 0;
   virtual ~ClientHandler() {}
 };
 

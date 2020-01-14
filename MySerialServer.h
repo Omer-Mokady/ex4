@@ -8,8 +8,10 @@
 using namespace server_side;
 
 class MySerialServer : public Server {
-  virtual void open(int port);
-  virtual void close();
+  ~MySerialServer();
+  void open(int portNumber, ClientHandler *c) override;
+  void stop(int socketToClose) override;
+  void Start(int port, ClientHandler *clientHandler);
 };
 
 #endif //EX4__MYSERIALSERVER_H_
