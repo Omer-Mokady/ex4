@@ -95,7 +95,7 @@ class FileCacheManager : public CacheManager<T> {
     return newObj;
   }
 
-  bool virtual checkSolutionExistent(string key) {
+  bool checkSolutionExistent(string key) {
     ifstream inFile;
     T newObj;
     typename unordered_map<string,typename list<pair<string,T>>::iterator>::iterator itMap
@@ -108,7 +108,7 @@ class FileCacheManager : public CacheManager<T> {
         return false;
       // // not exist in the files
       } else {
-        return false;
+        return true;
       }
       // key exist in the map
     } else {

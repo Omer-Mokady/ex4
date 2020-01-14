@@ -16,12 +16,20 @@ template <typename S>
 
 class MyTestClientHandler : public ClientHandler {
  public:
-  MyTestClientHandler();
+//  MyTestClientHandler();
   ~MyTestClientHandler(){};
   void handleClient(int socketNumber);
  private:
   StringReverser *solver;
-  FileCacheManager<S> cache;
+  CacheManager<S> *cache = new FileCacheManager<S>(5);
 };
+template<typename S>
+void MyTestClientHandler<S>::handleClient(int socketNumber) {
+  char line[1024] = {0};
+  read(socketNumber, line, 1024);
+  string buffer = line;
+  string answer = this->solver->solve(line);
+  cout << answer << endl;
+}
 
 #endif //EX4__MYTESTCLIENTHANDLER_H_
