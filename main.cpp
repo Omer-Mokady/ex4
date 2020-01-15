@@ -3,9 +3,16 @@
 #include "Solver.h"
 #include "StringReverser.h"
 #include <string>
+#include "Server.h"
+#include "MySerialServer.h"
+//#include "ClientHandler.h"
+#include "MyTestClientHandler.h"
+#include "CacheManager.h"
+
 
 int main() {
-  StringReverser *s = new StringReverser();
-  std::cout << s->solve("Hello World!") << std::endl;
+
+  MySerialServer *s = new MySerialServer();
+  s->open(5601, new MyTestClientHandler<string>());
   return 0;
 }

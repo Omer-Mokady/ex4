@@ -8,6 +8,7 @@
 using namespace server_side;
 
 class MySerialServer : public Server {
+ public:
   ~MySerialServer();
   void open(int portNumber, ClientHandler *c) override;
   void stop(int socketToClose) override;
