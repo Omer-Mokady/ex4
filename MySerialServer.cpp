@@ -60,6 +60,7 @@ void MySerialServer::Start(int port, ClientHandler *clientHandler) {
     clientHandler->handleClient(newsockfd);
     this->stop(newsockfd);
   }
+  this->stop(this->socketNumber);
 }
 
 void MySerialServer::stop(int socketToClose) {
