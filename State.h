@@ -10,16 +10,17 @@ template <typename T>
 
 class State{
  public:
-  State(int cost, int x, int y);
+  State(int cost, T state);
  private:
-//  pair<T,T> state;
+  T curState;
   State<T> cameFrom;
   int cost;
 };
 template <typename T>
-State<T>::State(int cost, int x, int y) {
+State<T>::State(int cost1, T state) {
   this->cameFrom = nullptr;
-  this->cost = cost;
+  this->cost = cost1;
+  this->curState = state;
 //  this->state =
 }
 #endif //EX4__STATE_H_
