@@ -7,7 +7,6 @@
 #include <functional>
 
 template <typename T>
-
 class State{
  public:
   State(int cost, T state);
