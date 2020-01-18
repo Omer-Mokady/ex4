@@ -47,7 +47,7 @@ void MyClientHandler<P,S>::handleClient(int socketNumber){
 //  string strProblem = "123/n456/n789/n";
   string strProblem = "123";
 
-  Searchable<pair<int,int>>* problem = new MatrixProblem(strProblem);
+  Searchable<pair<int,int>>* problem = new MatrixProblem(strProblem, "0,1\n", "2,2\n");
   if (this->cache->checkSolutionExistent(strProblem)) {
     cout << "already have the solution for this problem." << endl;
     cout << this->cache->get(strProblem) << endl;

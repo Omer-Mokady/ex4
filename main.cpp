@@ -11,6 +11,15 @@
 #include "State.h"
 #include "MatrixProblem.h"
 #include "Searcher.h"
+using namespace std;
+
+Searchable<pair<int,int>>* checkFunc(MatrixProblem* matrix) {
+
+
+  matrix->matrix[1][1]->setCameFrom(matrix->initialState);
+  cout << "inside checkFunc" << endl;
+
+}
 
 // for checking cacheManager:
 /*
@@ -48,16 +57,46 @@ class Employee
 };
 const string Employee::class_name = "EmployeeClass";
 */
-using namespace std;
 int main() {
   // for gal:
-  string s1 = "123\n";
-  string s2 = "456\n";
-  string s3 = "789\n";
+  string s1 = "1,28,3\n";
+  string s2 = "4,567,6\n";
+  string s3 = "7,86,9\n";
+  string initial = "0,1\n";
+  string goal = "2,1\n";
   string str = s1+s2+s3;
- Searchable<pair<int,int>>* matrix = new MatrixProblem(str);
+// Searchable<pair<int,int>>* matrix = new MatrixProblem(str, initial, goal);
+// State<pair<int,int>> tempState = (matrix->getInitialState());
+
+
 // Searcher<pair<int,int>,string> algoBFS = new BFSClassExample();
- string solution;
+  MatrixProblem* newMatrix = new MatrixProblem(str, initial, goal);;
+  checkFunc(newMatrix);
+   State<pair<int, int>> *tempState1 = new State<pair<int, int>>(2, pair<int, int>(1, 1));
+  State<pair<int, int>> *tempState2 = new State<pair<int, int>>(2, pair<int, int>(1, 1));
+  list<State<pair<int, int>>> newList = newMatrix->getAllPossibleStates(*tempState1);
+    cout << "1 is good" << endl;
+
+
+//if(tempState1->equals(*tempState2)) {
+//  cout << "1 is good" << endl;
+//}
+//  if(tempState1->equals(*(newMatrix->goalState))) {
+//    cout << "2 is good" << endl;
+//  }
+//  if(newMatrix->isGoalState(*tempState1)){
+//    cout << "gggood" << endl;
+//
+//  } else {
+//    cout << "baddd" << endl;
+//
+//  }
+
+
+  State<pair<int,int>> tempStateX = (newMatrix->getInitialState());
+
+
+  string solution;
 // solution = BFSClassExample.search(matrix);
 
 
