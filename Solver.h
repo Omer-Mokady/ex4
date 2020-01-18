@@ -4,10 +4,11 @@
 
 #ifndef EX4__SOLVER_H_
 #define EX4__SOLVER_H_
-template<typename Problem, typename Solution>
+template<typename P, typename S>
 class Solver {
  public:
+
   virtual ~Solver() {};
-  virtual Solution solve(Problem) = 0;
+  virtual S solve(P) = 0;
 };
 #endif //EX4__SOLVER_H_

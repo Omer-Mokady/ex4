@@ -3,4 +3,4 @@ project(ex4)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS -pthread)
-add_executable(ex4 main.cpp Server.h MySerialServer.cpp MySerialServer.h ClientHandler.h MyTestClientHandler.h Solver.h CacheManager.h StringReverser.cpp StringReverser.h State.h MyClientHandler.h Searchable.h MatrixProblem.cpp MatrixProblem.h)
+add_executable(ex4 main.cpp Server.h MySerialServer.cpp MySerialServer.h ClientHandler.h MyTestClientHandler.h Solver.h CacheManager.h StringReverser.cpp StringReverser.h State.h MyClientHandler.h Searchable.h MatrixProblem.cpp MatrixProblem.h Searcher.h ObjectAdapter.cpp ObjectAdapter.h)
