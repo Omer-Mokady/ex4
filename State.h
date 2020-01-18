@@ -12,7 +12,7 @@ class State{
   State(int cost, T state);
  private:
   T curState;
-  State<T> cameFrom;
+  State<T> *cameFrom;
   int cost;
 };
 template <typename T>
