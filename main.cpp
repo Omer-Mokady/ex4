@@ -10,8 +10,9 @@
 #include "CacheManager.h"
 #include "State.h"
 #include "MatrixProblem.h"
+#include "Searcher.h"
 
-
+// for checking cacheManager:
 /*
 // Testing Class
 class Student
@@ -49,12 +50,23 @@ const string Employee::class_name = "EmployeeClass";
 */
 using namespace std;
 int main() {
-//  string s1 = "123\n";
-//  string s2 = "456\n";
-//  string s3 = "789\n";
-//  string str = s1+s2+s3;
-////  MatrixProblem* matrix = new MatrixProblem(str);
-// Searchable<pair<int,int>>* matrix = new MatrixProblem(str);
+  // for gal:
+  string s1 = "123\n";
+  string s2 = "456\n";
+  string s3 = "789\n";
+  string str = s1+s2+s3;
+ Searchable<pair<int,int>>* matrix = new MatrixProblem(str);
+// Searcher<pair<int,int>,string> algoBFS = new BFSClassExample();
+ string solution;
+// solution = BFSClassExample.search(matrix);
+
+
+     // end for gal
+
+
+
+
+
 //
 //  vector<vector<State<pair<int,int>>*>> vect;
 //  int rowNum=0, colNum=0, i=0;
@@ -89,20 +101,10 @@ int main() {
 //
 
 
-
-
-//
-//
-//  int a;
-//
-
-
-
+// for checking cacheManager:
   /*
   CacheManager<Student> *my_cache = new FileCacheManager<Student>(3);
 //  CacheManager<> my_cache(3);
-
-
   try {
     my_cache->insert("0", Student(0,22,"student1"));
     my_cache->insert("1", Student(1,23,"student2"));
@@ -111,19 +113,21 @@ int main() {
   } catch  (const char * e) {
     cout << e << endl;
   }
-
-
-
   try {
     Student return_obj = my_cache->get("0");//not in cache but in filesystem
   } catch (const char * e) {
     cout << e << endl;
   }
-
   my_cache->foreach([](Student& s){s.print();}); //prints all students in cache
 */
-  MySerialServer *s = new MySerialServer();
-  s->open(5601, new MyClientHandler<string,string>());
+
+  //important:
+//  MySerialServer *s = new MySerialServer();
+//  s->open(5601, new MyClientHandler<string,string>());
+
+
+
+
 //  MySerialServer *s = new MySerialServer();
 //  s->open(5601, new MyTestClientHandler<string>());
   return 0;
