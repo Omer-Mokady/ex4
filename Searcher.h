@@ -4,15 +4,16 @@
 
 #ifndef EX4__SEARCHER_H_
 #define EX4__SEARCHER_H_
+#include <queue>
 #include "Searchable.h"
+#include "State.h"
+
 using namespace std;
-// am i need to put typename S for solution???????
-template<typename T, typename S>
+
+template<typename T>
 class Searcher {
  public:
-
 //  virtual ~Searchable() {};
-  virtual S Search(Searchable<T>*) = 0;
-
+  virtual State<T> Search(Searchable<T> *) = 0;
 };
 #endif //EX4__SEARCHER_H_

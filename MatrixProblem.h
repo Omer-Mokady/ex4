@@ -14,25 +14,25 @@
 #include <list>
 
 //template<typename T>
-class MatrixProblem : public Searchable<pair<int,int>> {
+class MatrixProblem : public Searchable<pair<int, int>> {
  private:
 
   string name;
  public:
-  vector<vector<State<pair<int,int>>*>> matrix;
+  vector<vector<State<pair<int, int>> *>> matrix;
 
   //  ~MatrixProblem();
-  State<pair<int,int>>* initialState;
-  State<pair<int,int>>* goalState;
+  State<pair<int, int>> *initialState;
+  State<pair<int, int>> *goalState;
   string getName();
-  virtual State<pair<int,int>> getInitialState();
-  virtual bool isGoalState(State<pair<int,int>>);
-  virtual list<State<pair<int,int>>> getAllPossibleStates(State<pair<int,int>>);
+  virtual State<pair<int, int>> *getInitialState();
+  virtual bool isGoalState(State<pair<int, int>>);
+  virtual list<State<pair<int, int>> *> getAllPossibleStates(State<pair<int, int>>);
   MatrixProblem(string str, string initial, string goal) {
     // get name
     this->name = str;
-    vector<vector<State<pair<int,int>>*>> vect;
-    int rowNum=0, colNum=0, i=0, firstIndex = 0, value=0;
+    vector<vector<State<pair<int, int>> *>> vect;
+    int rowNum = 0, colNum = 0, i = 0, firstIndex = 0, value = 0;
     string tempStr;
     bool finish = false;
 
@@ -40,14 +40,14 @@ class MatrixProblem : public Searchable<pair<int,int>> {
 
 
 
-  // create matrix field
+    // create matrix field
 
     // to delete spaces !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     State<pair<int, int>> *newState;
     // read all the matrix data
-    i=0;
-    while (i<str.length()) {
+    i = 0;
+    while (i < str.length()) {
 //      cout << 1 << endl;
       colNum = 0;
       vector<State<pair<int, int>> *> row;
@@ -57,14 +57,14 @@ class MatrixProblem : public Searchable<pair<int,int>> {
 //        cout << str[i] << endl;
         pair<int, int> pairNum(rowNum, colNum);
         // separe values
-        if(str[i] == ',') {
+        if (str[i] == ',') {
 //          cout << 3 << endl;
-          tempStr = str.substr(firstIndex, i-firstIndex);
+          tempStr = str.substr(firstIndex, i - firstIndex);
 //          cout << "tempStr is: " << tempStr << endl;
           value = stoi(tempStr);
 //          cout << "value is: " << value << endl;
 
-          firstIndex = i+1;
+          firstIndex = i + 1;
           newState = new State<pair<int, int>>(value, pairNum);
           row.push_back(newState);
           colNum++;
@@ -72,9 +72,9 @@ class MatrixProblem : public Searchable<pair<int,int>> {
         i++;
       }
       // insert last number
-      tempStr = str.substr(firstIndex, i-firstIndex);
+      tempStr = str.substr(firstIndex, i - firstIndex);
       value = stoi(tempStr);
-      firstIndex = i+1;
+      firstIndex = i + 1;
       pair<int, int> pairNum(rowNum, colNum);
       newState = new State<pair<int, int>>(value, pairNum);
       row.push_back(newState);
@@ -87,17 +87,17 @@ class MatrixProblem : public Searchable<pair<int,int>> {
 
     // get initialState
     firstIndex = 0;
-    i=0;
+    i = 0;
     finish = false;
 //            cout << "initial: " << initial << endl;
-    for(i=0; i<initial.length();i++) {
-      if(initial[i] == ',') {
-        tempStr = initial.substr(firstIndex, i-firstIndex);
+    for (i = 0; i < initial.length(); i++) {
+      if (initial[i] == ',') {
+        tempStr = initial.substr(firstIndex, i - firstIndex);
         rowNum = stoi(tempStr);
 //        cout << "row is: " << rowNum << endl;
-        firstIndex = i+1;
-      } else if(initial[i] == '\n') {
-        tempStr = initial.substr(firstIndex, i-firstIndex);
+        firstIndex = i + 1;
+      } else if (initial[i] == '\n') {
+        tempStr = initial.substr(firstIndex, i - firstIndex);
         colNum = stoi(tempStr);
 //        cout << "col is: " << colNum << endl;
         finish = true;
@@ -124,17 +124,17 @@ class MatrixProblem : public Searchable<pair<int,int>> {
 
     // get goalState
     firstIndex = 0;
-    i=0;
+    i = 0;
     finish = false;
 //            cout << "initial: " << initial << endl;
-    for(i=0; i<goal.length();i++) {
-      if(goal[i] == ',') {
-        tempStr = goal.substr(firstIndex, i-firstIndex);
+    for (i = 0; i < goal.length(); i++) {
+      if (goal[i] == ',') {
+        tempStr = goal.substr(firstIndex, i - firstIndex);
         rowNum = stoi(tempStr);
 //        cout << "row is: " << rowNum << endl;
-        firstIndex = i+1;
-      } else if(goal[i] == '\n') {
-        tempStr = goal.substr(firstIndex, i-firstIndex);
+        firstIndex = i + 1;
+      } else if (goal[i] == '\n') {
+        tempStr = goal.substr(firstIndex, i - firstIndex);
         colNum = stoi(tempStr);
 //        cout << "col is: " << colNum << endl;
         finish = true;
@@ -156,15 +156,11 @@ class MatrixProblem : public Searchable<pair<int,int>> {
     newState = new State<pair<int, int>>(value, pairNum2);
     this->goalState = newState;
 
-
-
-
     cout << "end" << endl;
 
   }
   // to remove to HANDLER class
-  static string toString(string str)
-  {
+  static string toString(string str) {
     size_t numName = hash<string>{}(str);
     return to_string(numName);
   }
