@@ -5,24 +5,24 @@
 #include "MatrixProblem.h"
 
 list<State<pair<int, int>> *> MatrixProblem::getAllPossibleStates(State<pair<int, int>> state) {
-  int row = 0, col = 0, rowSize = 0;
+  int row = 0, col = 0, colSize = 0;
   list<State<pair<int, int>> *> statesList;
   row = state.getCurState().first;
   col = state.getCurState().second;
-  int colSize = this->matrix.size();
-  cout << "colSize is: " << colSize << endl;
+  int rowSize = this->matrix.size();
+  cout << "rowSize is: " << rowSize << endl;
   // get upper state
   if (row > 0) {
 //    statesList.push_front(*(this->matrix[row - 1][col]));
     statesList.push_front((this->matrix[row - 1][col]));
   }
-  // get lower state
+  // get right state
   if (!matrix.empty()) {
-    rowSize = this->matrix[0].size();
-    cout << "rowSize is: " << rowSize << endl;
-    if (row < rowSize - 1) {
+    colSize = this->matrix[0].size();
+    cout << "colSize is: " << colSize << endl;
+    if (col < colSize - 1) {
 //      statesList.push_front(*(this->matrix[row + 1][col]));
-      statesList.push_front((this->matrix[row + 1][col]));
+      statesList.push_front((this->matrix[row][col+1]));
     }
   }
   // get left state
@@ -30,10 +30,10 @@ list<State<pair<int, int>> *> MatrixProblem::getAllPossibleStates(State<pair<int
 //    statesList.push_front(*(this->matrix[row][col - 1]));
     statesList.push_front((this->matrix[row][col - 1]));
   }
-  // get right state
-  if (col < colSize - 1) {
+  // get lower state
+  if (row < rowSize - 1) {
 //    statesList.push_front(*(this->matrix[row][col + 1]));
-    statesList.push_front((this->matrix[row][col + 1]));
+    statesList.push_front((this->matrix[row+1][col]));
   }
   return statesList;
 }
