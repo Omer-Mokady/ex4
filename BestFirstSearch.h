@@ -19,6 +19,7 @@
 template<typename T>
 class BestFirstSearch : public Searcher<T> {
  public:
+
   virtual ~BestFirstSearch() {};
   State<T>* Search(Searchable<T> *s);
  private:
