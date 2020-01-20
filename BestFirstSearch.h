@@ -20,7 +20,7 @@ template<typename T>
 class BestFirstSearch : public Searcher<T> {
  public:
   virtual ~BestFirstSearch() {};
-  State<T> Search(Searchable<T> *s);
+  State<T>* Search(Searchable<T> *s);
  private:
   bool isInQueue(State<T> *s, set<State<T> *> *tracker);
   bool isInClosedSet(State<T> *s, set<State<T> *> *closed);
@@ -34,7 +34,7 @@ template<typename T>
  * TO DO LIST:
  * create "return back trace" in State.h.
  */
-State<T> BestFirstSearch<T>::Search(Searchable<T> *s) {
+State<T>* BestFirstSearch<T>::Search(Searchable<T> *s) {
   _open->push((s->getInitialState()));
   _queueTracker->insert((s->getInitialState())); //tracker set - use us to find element in the queue in O(1).
   set<State<T> *> *closed = new set<State<T> *>();
@@ -44,7 +44,7 @@ State<T> BestFirstSearch<T>::Search(Searchable<T> *s) {
     _queueTracker->erase(n);
     closed->insert(n);
     if (s->isGoalState(*n)) {
-      return *n;
+      return n;
     }
     auto successors = s->getAllPossibleStates(*n);
     typename list<State<pair<int, int>> *>::iterator it = successors.begin();

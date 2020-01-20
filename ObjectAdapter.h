@@ -7,12 +7,13 @@
 #include "Solver.h"
 #include "Searcher.h"
 #include <iostream>
+#include "BestFirstSearch.h"
 
 using namespace std;
 template<typename P, typename S>
 class ObjectAdapter : public Solver<P,S> {
   private:
-  //    Searcher<pair<int,int>,S>* algo1;
+      Searcher<pair<int,int>>* BFBest = new BestFirstSearch<pair<int,int>>();
   public:
   ObjectAdapter();
   ~ObjectAdapter(){};
@@ -20,9 +21,21 @@ class ObjectAdapter : public Solver<P,S> {
 };
 template<typename P, typename S>
 S ObjectAdapter<P, S>::solve(P problem) {
+  State<pair<int,int>>* tempSolution = (this->BFBest->Search(problem));
+//  State<pair<int,int>> tempSolution = (this->BFBest->Search(problem));
+//  State<pair<int,int>>* finalSolution = &tempSolution;
+
+
+
+
+//  State<pair<int,int>>* finalSolution = &tempSolution;
+//  State<pair<int,int>>
     cout << "function solve works on ObjectAdapter" << endl;
+//    return finalSolution;
   //temp - to replace the return value
-  return "123";
+//  return (this->BFBest->Search(problem));
+//good
+  return tempSolution;
 }
 template<typename P, typename S>
 ObjectAdapter<P, S>::ObjectAdapter() {

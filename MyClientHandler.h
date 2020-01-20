@@ -86,18 +86,16 @@ void MyClientHandler<P,S>::handleClient(int socketNumber){
   cout << "got new string" << endl;
   //"1,28,3\n4,567,6\n7,86,9\n0,1\n2,1\nend";
   // create our problem object
-//  auto* problemObj = new MatrixProblem(strMatrix, initial, goal);
   Searchable<pair<int,int>>* problemObj = new MatrixProblem(strMatrix, initial, goal);
-//  MatrixProblem* problemObj = new MatrixProblem(strMatrix, initial, goal);
   P newObj;
-  this->solver->solve(problemObj);
-
-//  auto* problemObj = new MatrixProblem(strMatrix, initial, goal);
+//  this->solver->solve(problemObj);
 
 
-  cout << "got matrix\n" << endl;
+
+
   string strProblem = MatrixProblem::toString(input);
-  cout << "got name\n" << endl;
+
+
   // try to load solution
   if (this->cache->checkSolutionExistent(strProblem)) {
     cout << "already have the solution for this problem.\n" << endl;
@@ -110,8 +108,9 @@ void MyClientHandler<P,S>::handleClient(int socketNumber){
     }
   // create solution
   } else {
-    cout << "don't have the solution for this problem yet.\n" << endl;
     solution = this->solver->solve(problemObj);
+    cout << "don't have the solution for this problem yet.\n" << endl;
+
     try {
       this->cache->insert(strProblem, solution);
       cout << "we added the solution to the cache" << endl;
@@ -120,6 +119,13 @@ void MyClientHandler<P,S>::handleClient(int socketNumber){
       cout << e << endl;
     }
   }
+  cout << "we found solution" << endl;
+  cout << "we found solution" << endl;
+  cout << "we found solution" << endl;
+  cout << "we found solution" << endl;
+
+
+
 
 
 }

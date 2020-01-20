@@ -14,6 +14,6 @@ template<typename T>
 class Searcher {
  public:
 //  virtual ~Searchable() {};
-  virtual State<T> Search(Searchable<T> *) = 0;
+  virtual State<T>* Search(Searchable<T> *) = 0;
 };
 #endif //EX4__SEARCHER_H_
