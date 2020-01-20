@@ -77,6 +77,7 @@ class FileCacheManager : public CacheManager<S> {
   S get(string key) {
     ifstream inFile;
     S newObj;
+//    S* newObj;
     typename unordered_map<string,typename list<pair<string,S>>::iterator>::iterator itMap
         = this->cacheMap.find(key);
     // if the key is not exists in the map
@@ -128,11 +129,6 @@ class FileCacheManager : public CacheManager<S> {
       advance(itList,1);
     }
   }
-
-
-
-
-
 
 
 };

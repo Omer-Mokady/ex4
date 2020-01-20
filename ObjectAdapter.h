@@ -8,19 +8,24 @@
 #include "Searcher.h"
 #include <iostream>
 #include "BestFirstSearch.h"
+#include "DFSAlgo.h"
 
 using namespace std;
 template<typename P, typename S>
 class ObjectAdapter : public Solver<P,S> {
   private:
       Searcher<pair<int,int>>* BFBest = new BestFirstSearch<pair<int,int>>();
-  public:
+      Searcher<pair<int,int>>* dsfAlgo = new DFSAlgo<pair<int,int>>();
+
+ public:
   ObjectAdapter();
   ~ObjectAdapter(){};
   S solve(P);
 };
 template<typename P, typename S>
 S ObjectAdapter<P, S>::solve(P problem) {
+  cout << "in OA, going to DFS" << endl;
+//  this->dsfAlgo->Search(problem);
   State<pair<int,int>>* tempSolution = (this->BFBest->Search(problem));
 //  State<pair<int,int>> tempSolution = (this->BFBest->Search(problem));
 //  State<pair<int,int>>* finalSolution = &tempSolution;

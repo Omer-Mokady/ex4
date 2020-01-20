@@ -14,6 +14,7 @@ class State {
  public:
   bool equals(State<T> state1);
   State(int cost, T state);
+  State();
   int getCost();
   T getCurState();
   State<T> *getCameFrom();
@@ -59,6 +60,11 @@ template<typename T>
 void State<T>::setCameFrom(State<T> *prevState) {
   this->cameFrom = prevState;
 }
+
+//void State<T>::setCameFrom(State<T> *prevState) {
+//  State<T>* temp  = new State<T>((*prevState)->getCost(), *(prevState)->getCurState());
+//  this->cameFrom = temp;
+//}
 template<typename T>
 bool State<T>::equals(State<T> state1) {
   return (state1.getCurState() == this->curState);
@@ -90,6 +96,10 @@ int State<T>::getPathCost() {
 template<typename T>
 void State<T>::setPathCost(int cost) {
   this->pathCost = cost;
+}
+template<typename T>
+State<T>::State() {
+
 }
 
 #endif //EX4__STATE_H_
