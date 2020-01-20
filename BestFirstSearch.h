@@ -16,6 +16,10 @@
 #include <iterator>
 #include <list>
 
+
+
+
+
 template<typename T>
 class BestFirstSearch : public Searcher<T> {
  public:
@@ -90,7 +94,14 @@ bool BestFirstSearch<T>::isInQueue(State<T> *s, set<State<T> *> *tracker) {
 //    return true;
 //  }
   return false;
+
+
 }
+
+
+
+
+
 
 template<typename T>
 bool BestFirstSearch<T>::isInClosedSet(State<T> *s, set<State<T> *> *closed) {
