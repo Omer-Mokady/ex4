@@ -11,6 +11,7 @@
 #include "State.h"
 #include "MatrixProblem.h"
 #include "Searcher.h"
+#include "ObjectAdapter.h"
 using namespace std;
 
 Searchable<pair<int,int>>* checkFunc(MatrixProblem* matrix) {
@@ -59,9 +60,9 @@ const string Employee::class_name = "EmployeeClass";
 */
 int main() {
   // for gal:
-  string s1 = "1,28,3\n";
-  string s2 = "4,567,6\n";
-  string s3 = "7,86,9\n";
+  string s1 = "1,28,3,54\n";
+  string s2 = "4,567,6,32\n";
+  string s3 = "7,86,9,84\n";
   string initial = "0,1\n";
   string goal = "2,1\n";
   string str = s1+s2+s3;
@@ -70,12 +71,12 @@ int main() {
 
 
 // Searcher<pair<int,int>,string> algoBFS = new BFSClassExample();
-  MatrixProblem* newMatrix = new MatrixProblem(str, initial, goal);;
-  checkFunc(newMatrix);
+  MatrixProblem* newMatrix = new MatrixProblem(str, initial, goal);
+//  checkFunc(newMatrix);
    State<pair<int, int>> *tempState1 = new State<pair<int, int>>(2, pair<int, int>(1, 1));
   State<pair<int, int>> *tempState2 = new State<pair<int, int>>(2, pair<int, int>(1, 1));
-  list<State<pair<int, int>>> newList = newMatrix->getAllPossibleStates(*tempState1);
-    cout << "1 is good" << endl;
+  list<State<pair<int, int>>*> newList = newMatrix->getAllPossibleStates(*tempState1);
+//    cout << "1 is good" << endl;
 
 
 //if(tempState1->equals(*tempState2)) {
@@ -92,11 +93,11 @@ int main() {
 //
 //  }
 
-
-  State<pair<int,int>> tempStateX = (newMatrix->getInitialState());
-
-
-  string solution;
+//
+//  State<pair<int,int>> tempStateX = (newMatrix->getInitialState());
+//
+//
+//  string solution;
 // solution = BFSClassExample.search(matrix);
 
 
@@ -140,9 +141,40 @@ int main() {
 //
 
 
+
 // for checking cacheManager:
+//     CacheManager<State<pair<int,int>>> *my_cache = new FileCacheManager<State<pair<int,int>>>(1);
+//  CacheManager<State<int>> *my_cache2 = new FileCacheManager<State<int>>(1);
+//  CacheManager<State<pair<int,int>>> *my_cache = new FileCacheManager<State<pair<int,int>>>(1);
+
+
+
+//  CacheManager<State<pair<int,int>>*> *my_cache = new FileCacheManager<State<pair<int,int>>*>(1);
+
+//  State<pair<int,int>>* state1 = new State<pair<int,int>>(1, pair<int,int>(1,1));
+//  State<pair<int,int>>* state2 = new State<pair<int,int>>(2, pair<int,int>(2,2));
+//  state2->setCameFrom(state1);
+//  State<pair<int,int>>* state3 = new State<pair<int,int>>(3, pair<int,int>(3,3));
+//  state3->setCameFrom(state2);
+//
+//
+//  try {
+//  my_cache->insert("check1", state1);
+//  my_cache->insert("check2", state3);
+//  } catch  (const char * e) {
+//    cout << e << endl;
+//  }
+//  try {
+//    State<pair<int,int>>* result = (my_cache->get("check1"));//not in cache but in filesystem
+//    cout << "result" << endl;
+//  } catch (const char * e) {
+//    cout << e << endl;
+//  }
+
+
   /*
-  CacheManager<Student> *my_cache = new FileCacheManager<Student>(3);
+   *   CacheManager<Student> *my_cache = new FileCacheManager<Student>(3);
+
 //  CacheManager<> my_cache(3);
   try {
     my_cache->insert("0", Student(0,22,"student1"));
@@ -156,18 +188,33 @@ int main() {
     Student return_obj = my_cache->get("0");//not in cache but in filesystem
   } catch (const char * e) {
     cout << e << endl;
-  }
+  }./a.out
   my_cache->foreach([](Student& s){s.print();}); //prints all students in cache
 */
 
   //important:
+//  ClientHandler *c = new MyClientHandler<string,string>();
+
+
+//  Solver<Searchable<pair<int,int>>*,string> *solv = new ObjectAdapter<Searchable<pair<int,int>>*,string>();
+////  MatrixProblem* newMatrix1 = new MatrixProblem(str, initial, goal);
+//  Searchable<pair<int,int>>* newMatrix1 = new MatrixProblem(str, initial, goal);
+//
+//
+//  cout << "before solve" << endl;
+//  solv->solve(newMatrix1);
+//  cout << "after solve" << endl;
+
+
+
+
+//works:
 //  MySerialServer *s = new MySerialServer();
-//  s->open(5601, new MyClientHandler<string,string>());
+//  s->open(5601, new MyClientHandler<Searchable<pair<int,int>>*,string>());
 
 
+  MySerialServer *s = new MySerialServer();
+  s->open(5601, new MyClientHandler<Searchable<pair<int,int>>*,State<pair<int,int>>*>());
 
-
-//  MySerialServer *s = new MySerialServer();
-//  s->open(5601, new MyTestClientHandler<string>());
   return 0;
 }
