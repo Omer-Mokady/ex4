@@ -35,12 +35,15 @@ class State {
   int getPathCost();
   void setPathCost(int cost);
   string getColor();
-
+  int getHeuristic();
+  void setHeuristic(int newHeuristic);
  private:
+
   T curState;
   State<T> *cameFrom;
   int cost;
   int pathCost;
+  int heuristic;
   string _color;
 };
 template<typename T>
@@ -50,6 +53,7 @@ State<T>::State(int cost1, T state) {
   this->pathCost = 0;
   this->curState = state;
   this->_color = "white";
+  this->heuristic = 0;
 }
 
 template<typename T>
@@ -59,6 +63,7 @@ State<T>::State(State<T> *other) {
   this->pathCost = other->getPathCost();
   this->curState = other->getCurState();
   this->_color = other->getColor();
+  this->heuristic = other->getHeuristic();
 }
 
 template<typename T>
@@ -111,6 +116,14 @@ void State<T>::setPathCost(int cost) {
 template<typename T>
 State<T>::State() {
 
+}
+template<typename T>
+int State<T>::getHeuristic() {
+  return this->heuristic;
+}
+template<typename T>
+void State<T>::setHeuristic(int newHeuristic) {
+  this->heuristic = newHeuristic;
 }
 
 #endif //EX4__STATE_H_
