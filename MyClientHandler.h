@@ -87,7 +87,7 @@ void MyClientHandler<P,S>::handleClient(int socketNumber){
   S solution;
 
   cout << "got new string" << endl;
-  //"1,28,3\n4,567,6\n7,86,9\n0,1\n2,1\nend";
+  //"1,28,3\n-1,567,6\n7,86,9\n0,1\n2,1\nend";
   // create our problem object
   Searchable<pair<int,int>>* problemObj = new MatrixProblem(strMatrix, initial, goal);
   P newObj;
@@ -123,8 +123,8 @@ void MyClientHandler<P,S>::handleClient(int socketNumber){
     }
   }
 
-//  strSolution = fromMatrixGoalStateToString(solution);
-//  cout << strSolution << endl;
+  strSolution = fromMatrixGoalStateToString(solution);
+  cout << strSolution << endl;
   cout << "we found solution" << endl;
   cout << "we found solution" << endl;
   cout << "we found solution" << endl;
@@ -146,7 +146,7 @@ string MyClientHandler<P, S>::compareMatrixStates(State<pair<int, int>> first, S
     output = "down(" + to_string(value) + ")";
     // check if it moves up
   } else if(firstPair.first>secondtPair.first) {
-    value=first.getPathCost();
+    value=second.getPathCost();
     output = "up(" + to_string(value) + ")";
     // check if it moves right
   } else if(firstPair.second<secondtPair.second) {
@@ -154,7 +154,7 @@ string MyClientHandler<P, S>::compareMatrixStates(State<pair<int, int>> first, S
     output = "right(" + to_string(value) + ")";
     // check if it moves left
   } else if(firstPair.second>secondtPair.second) {
-    value=first.getPathCost();
+    value=second.getPathCost();
     output = "left(" + to_string(value) + ")";
   }
   return output;

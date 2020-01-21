@@ -15,7 +15,7 @@ template<typename P, typename S>
 class ObjectAdapter : public Solver<P,S> {
   private:
       Searcher<pair<int,int>>* BFBest = new BestFirstSearch<pair<int,int>>();
-//      Searcher<pair<int,int>>* dsfAlgo = new DFSAlgo<pair<int,int>>();
+      Searcher<pair<int,int>>* dsfAlgo = new DFSAlgo<pair<int,int>>();
 
  public:
   ObjectAdapter();
