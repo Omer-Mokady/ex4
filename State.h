@@ -29,8 +29,11 @@ class State {
     }
     return (cost > other.pathCost);
   }
-
   bool operator==(const State<T> &other) const;
+  bool operator>(const State<T> &other) const {
+    return ((heuristic + pathCost) < (other.heuristic + other.pathCost));
+  }
+
   void setColor(char color);
   int getPathCost();
   void setPathCost(int cost);
@@ -46,6 +49,7 @@ class State {
   int heuristic;
   char color;
 };
+
 template<typename T>
 State<T>::State(int cost1, T state) {
   this->cameFrom = nullptr;

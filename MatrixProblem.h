@@ -26,6 +26,7 @@ class MatrixProblem : public Searchable<pair<int, int>> {
   State<pair<int, int>> *goalState;
   string getName();
   virtual State<pair<int, int>> *getInitialState();
+  virtual State<pair<int, int>> *getGoalState();
   virtual bool isGoalState(State<pair<int, int>>);
   virtual list<State<pair<int, int>> *> getAllPossibleStates(State<pair<int, int>>);
   MatrixProblem(string str, string initial, string goal) {

@@ -12,11 +12,11 @@ using namespace std;
 template<typename T>
 class Searchable {
  public:
-
   virtual ~Searchable() {};
   virtual State<pair<int, int>> *getInitialState() = 0;
   virtual bool isGoalState(State<T>) = 0;
   virtual list<State<T> *> getAllPossibleStates(State<T>) = 0;
+  virtual State<pair<int, int>> *getGoalState() = 0;
 };
 
 #endif //EX4__SEARCHABLE_H_

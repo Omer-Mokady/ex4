@@ -50,7 +50,6 @@ State<T> *BestFirstSearch<T>::Search(Searchable<T> *s) {
     if (s->isGoalState(n)) {
       State<T> *ret = new State<T>(&n);
       return ret;
-//      return n;
     }
     auto successors = s->getAllPossibleStates(n);
 //    auto successors = s->getAllPossibleStates(*n);
