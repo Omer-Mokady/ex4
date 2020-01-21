@@ -44,7 +44,8 @@ State<T> *AstarAlgo<T>::Search(Searchable<T> *s) {
       temp.setPathCost(q.getPathCost() + (*it)->getCost()); //this is the g
       temp.setHeuristic(calculateHeuristic(temp, goalState)); // this is the h
       if (s->isGoalState(*it)) {
-        return &(temp);
+        State<T> *ret = new State<T>(&temp);
+        return ret;
       }
       for (typename set<State<T>>::iterator it = _open->begin(); it != _open->end(); advance(it, 1)) {
         if (temp.equals(*it)) {
