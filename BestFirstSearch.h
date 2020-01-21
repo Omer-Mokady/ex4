@@ -17,7 +17,9 @@ class BestFirstSearch : public Searcher<T> {
  public:
   virtual ~BestFirstSearch() {};
   State<T> *Search(Searchable<T> *s);
+  int getNodesNumber();
  private:
+  int counter = 0;
   bool isInQueue(State<T> s, set<State<T>> *tracker);
 //  bool isInQueue(State<T> *s, set<State<T> *> *tracker);
   bool isInClosedSet(State<T> s, set<State<T>> *closed);
@@ -39,13 +41,15 @@ State<T> *BestFirstSearch<T>::Search(Searchable<T> *s) {
   set<State<T>> *closed = new set<State<T>>();
 //  set<State<T> *> *closed = new set<State<T> *>();
   while (_open->size() > 0) {
-    State<T> n = _open->top(); //// TODO - make copy constructor for this state for the prev update.
+    State<T> n = _open->top();
 //    State<T> *n = _open->top();
     _open->pop();
+    counter++;
     _queueTracker->erase(n);
     closed->insert(n);
     if (s->isGoalState(n)) {
-      return &n;
+      State<T> *ret = new State<T>(&n);
+      return ret;
 //      return n;
     }
     auto successors = s->getAllPossibleStates(n);
@@ -55,33 +59,34 @@ State<T> *BestFirstSearch<T>::Search(Searchable<T> *s) {
 //      State<T> *stateDebugger = (*it);
       if (!isInClosedSet(*(*it), closed) && !isInQueue(*(*it), _queueTracker)) { //not in queue and not in closed set.
 //      if (!isInClosedSet((*it), closed) && !isInQueue((*it), _queueTracker)) { //not in queue and not in closed set.
-        (*it)->setCameFrom(&n); //update that the successor prev is n.
-//        (*it)->setCameFrom(n); //update that the successor prev is n.
-        (*it)->setPathCost(n.getPathCost() + (*it)->getCost()); //update that the successor path cost is his + so far.
-//        (*it)->setPathCost(n->getPathCost() + (*it)->getCost()); //update that the successor path cost is his + so far.
-        _open->push(*(*it)); //push the successor into the open list.
-//        _open->push((*it)); //push the successor into the open list.
-        _queueTracker->insert(*(*it)); //push the successor into the tracker set.
-//        _queueTracker->insert((*it)); //push the successor into the tracker set.
+        State<T> temp = new State<T>(*it);
+        temp.setCameFrom(&n);
+//        (*it)->setCameFrom(&n); //update that the successor prev is n.
+        temp.setPathCost(n.getPathCost() + (*it)->getCost());
+//        (*it)->setPathCost(n.getPathCost() + (*it)->getCost()); //update that the successor path cost is his + so far.
+        _open->push(temp);
+//        _open->push(*(*it)); //push the successor into the open list.
+        _queueTracker->insert(temp);
+//        _queueTracker->insert(*(*it)); //push the successor into the tracker set.
       } else {
 
 //        State<T> *stateDebugger2 = (*it);
+        State<T> temp2 = new State<T>(*it);
         int currCost = (*it)->getPathCost();
         int optionalCost = (*it)->getCost() + n.getPathCost();
-//        int optionalCost = (*it)->getCost() + n->getPathCost();
         if (optionalCost < currCost) {
-          (*it)->setCameFrom(&n);
-//          (*it)->setCameFrom(n);
           if (!isInQueue(*(*it), _queueTracker)) {
-//          if (!isInQueue((*it), _queueTracker)) {
-            (*it)->setPathCost(optionalCost);
-            _open->push(*(*it));
-//            _open->push((*it));
-            _queueTracker->insert(*(*it));
-//            _queueTracker->insert((*it));
+            temp2.setCameFrom(&n);
+//            (*it)->setCameFrom(&n);
+            temp2.setPathCost(optionalCost);
+//            (*it)->setPathCost(optionalCost);
+            _open->push(temp2);
+//            _open->push(*(*it));
+            _queueTracker->insert(temp2);
+//            _queueTracker->insert(*(*it));
           } else {
-            relocateInQueue((*(*it)), optionalCost, _open);
-//            relocateInQueue(((*it)), optionalCost, _open);
+            relocateInQueue(temp2, optionalCost, _open);
+//            relocateInQueue((*(*it)), optionalCost, _open);
           }
         }
       }
@@ -140,6 +145,10 @@ void BestFirstSearch<T>::relocateInQueue(State<T> s, int newCost, priority_queue
     q->push(temp);
   }
 
+}
+template<typename T>
+int BestFirstSearch<T>::getNodesNumber() {
+  return this->counter;
 }
 
 #endif //EX4__BESTFIRSTSEARCH_H_r

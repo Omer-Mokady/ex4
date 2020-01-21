@@ -15,13 +15,21 @@ class State {
   bool equals(State<T> state1);
   State(int cost, T state);
   State();
+  State(State<T> *other);
   int getCost();
   T getCurState();
   State<T> *getCameFrom();
   void setCameFrom(State<T> *prevState);
   void setCost(int cost);
-  //added by gal on 18.1
-  bool operator<(const State<T> &other) const;
+
+//  //added by gal on 18.1
+  bool operator<(const State<T> &other) const {
+    if (pathCost != other.pathCost) {
+      return (pathCost > other.pathCost);
+    }
+    return (cost > other.pathCost);
+  }
+
   bool operator==(const State<T> &other) const;
   void setColor(string color);
   int getPathCost();
@@ -42,8 +50,17 @@ State<T>::State(int cost1, T state) {
   this->pathCost = 0;
   this->curState = state;
   this->_color = "white";
-//  this->state =
 }
+
+template<typename T>
+State<T>::State(State<T> *other) {
+  this->cameFrom = other->cameFrom;
+  this->cost = other->getCost();
+  this->pathCost = other->getPathCost();
+  this->curState = other->getCurState();
+  this->_color = other->getColor();
+}
+
 template<typename T>
 int State<T>::getCost() {
   return this->cost;
@@ -57,25 +74,19 @@ State<T> *State<T>::getCameFrom() {
   return this->cameFrom;
 }
 template<typename T>
-void State<T>::setCameFrom(State<T> *prevState) {
-  this->cameFrom = prevState;
-}
 
-//void State<T>::setCameFrom(State<T> *prevState) {
-//  State<T>* temp  = new State<T>((*prevState)->getCost(), *(prevState)->getCurState());
-//  this->cameFrom = temp;
-//}
+void State<T>::setCameFrom(State<T> *prevState) {
+  State<T> *temp = new State<T>(prevState);
+  this->cameFrom = temp;
+}
 template<typename T>
 bool State<T>::equals(State<T> state1) {
   return (state1.getCurState() == this->curState);
 }
-template<typename T>
-bool State<T>::operator<(const State<T> &other) const {
-  return (pathCost > other.pathCost);
-}
+
 template<typename T>
 bool State<T>::operator==(const State<T> &other) const {
-  return (pathCost == other.pathCost);
+  return (pathCost == other.getPathCost());
 }
 template<typename T>
 void State<T>::setColor(string color) {
