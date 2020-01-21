@@ -46,7 +46,7 @@ list<State<pair<int, int>> *> MatrixProblem::getAllPossibleStates(State<pair<int
   return statesList;
 }
 State<pair<int, int>> *MatrixProblem::getInitialState() {
-  return &(*(this->initialState));
+  return (this->initialState);
 }
 string MatrixProblem::getName() {
   return this->name;

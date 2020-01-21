@@ -6,6 +6,7 @@
 #define EX4__SEARCHER_H_
 #include <queue>
 #include "Searchable.h"
+#include <iostream>
 #include "State.h"
 
 using namespace std;

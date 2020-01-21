@@ -25,10 +25,9 @@ class ObjectAdapter : public Solver<P,S> {
 template<typename P, typename S>
 S ObjectAdapter<P, S>::solve(P problem) {
   cout << "in OA, going to DFS" << endl;
-//  this->dsfAlgo->Search(problem);
+//  State<pair<int,int>>* tempSolution = this->dsfAlgo->Search(problem);
   State<pair<int,int>>* tempSolution = (this->BFBest->Search(problem));
-//  State<pair<int,int>> tempSolution = (this->BFBest->Search(problem));
-//  State<pair<int,int>>* finalSolution = &tempSolution;
+
 
 
 

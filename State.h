@@ -31,10 +31,10 @@ class State {
   }
 
   bool operator==(const State<T> &other) const;
-  void setColor(string color);
+  void setColor(char color);
   int getPathCost();
   void setPathCost(int cost);
-  string getColor();
+  char getColor();
   int getHeuristic();
   void setHeuristic(int newHeuristic);
  private:
@@ -44,7 +44,7 @@ class State {
   int cost;
   int pathCost;
   int heuristic;
-  string _color;
+  char color;
 };
 template<typename T>
 State<T>::State(int cost1, T state) {
@@ -52,7 +52,7 @@ State<T>::State(int cost1, T state) {
   this->cost = cost1;
   this->pathCost = 0;
   this->curState = state;
-  this->_color = "white";
+  this->color = 'w';
   this->heuristic = 0;
 }
 
@@ -62,7 +62,7 @@ State<T>::State(State<T> *other) {
   this->cost = other->getCost();
   this->pathCost = other->getPathCost();
   this->curState = other->getCurState();
-  this->_color = other->getColor();
+  this->color = other->getColor();
   this->heuristic = other->getHeuristic();
 }
 
@@ -94,12 +94,12 @@ bool State<T>::operator==(const State<T> &other) const {
   return (pathCost == other.getPathCost());
 }
 template<typename T>
-void State<T>::setColor(string color) {
-  _color = color;
+void State<T>::setColor(char color1) {
+  this->color = color1;
 }
 template<typename T>
-string State<T>::getColor() {
-  return _color;
+char State<T>::getColor() {
+  return this->color;
 }
 template<typename T>
 void State<T>::setCost(int cost) {

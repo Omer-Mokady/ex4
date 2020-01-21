@@ -110,15 +110,20 @@ class MatrixProblem : public Searchable<pair<int, int>> {
 //      colNum = stoi(tempStr);
 //
 //    }
-    //make pair
-    pair<int, int> pairNum(rowNum, colNum);
-    // get value from initialize point
-    vector<State<pair<int, int>> *> tempVector;
-//    State<pair<int, int>> *tempState;
-    tempVector = vect[rowNum];
-    value = tempVector[colNum]->getCost();
-    newState = new State<pair<int, int>>(value, pairNum);
-    this->initialState = newState;
+
+
+
+    this->initialState = matrix[rowNum][colNum];
+
+
+////    //make pair
+//    pair<int, int> pairNum(rowNum, colNum);
+//    // get value from initialize point
+//    vector<State<pair<int, int>> *> tempVector;
+//    tempVector = vect[rowNum];
+//    value = tempVector[colNum]->getCost();
+//    newState = new State<pair<int, int>>(value, pairNum);
+//    this->initialState = newState;
 
 
 
@@ -140,6 +145,9 @@ class MatrixProblem : public Searchable<pair<int, int>> {
         finish = true;
       }
     }
+
+    this->goalState = matrix[rowNum][colNum];
+
 //    if(!finish) {
 //      cout << "string has no \ n in the end" << endl;
 //
@@ -148,13 +156,13 @@ class MatrixProblem : public Searchable<pair<int, int>> {
 //
 //    }
     //make pair
-    pair<int, int> pairNum2(rowNum, colNum);
-    // get value from initialize point
-//    State<pair<int, int>> *tempState;
-    tempVector = vect[rowNum];
-    value = tempVector[colNum]->getCost();
-    newState = new State<pair<int, int>>(value, pairNum2);
-    this->goalState = newState;
+//    pair<int, int> pairNum2(rowNum, colNum);
+//    // get value from initialize point
+////    State<pair<int, int>> *tempState;
+//    tempVector = vect[rowNum];
+//    value = tempVector[colNum]->getCost();
+//    newState = new State<pair<int, int>>(value, pairNum2);
+//    this->goalState = newState;
 
     cout << "end" << endl;
 

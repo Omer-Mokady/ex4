@@ -8,6 +8,7 @@
 #include <stack>
 #include <unordered_map>
 
+
 template<typename T>
 class DFSAlgo : public Searcher<T> {
  private:
@@ -18,34 +19,45 @@ class DFSAlgo : public Searcher<T> {
 };
 template<typename T>
 State<T> *DFSAlgo<T>::Search(Searchable<T> * problem) {
-//  unordered_map<string, int> simToIndexTable;
-//  stack<State<pair<int,int>>> stackStates;
-//  stackStates.push(*(problem->getInitialState()));
-//  while(!stackStates.empty()) {
-//    State<pair<int,int>> v = stackStates.top();
-//    stackStates.pop();
-//    if(problem->isGoalState(v)) {
-//      State<pair<int,int>> *final = &v;
-//      return final;
-//    } else {
-//      list<State<pair<int, int>> *> adjList = problem->getAllPossibleStates();
-//      list<State<pair<int, int>> *>::iterator it;
-////      while(it != cacheList.end()) {
-////        func(itList->second);
-////
-////
-////
-////
-////        advance(it,1);
-////
-////    }
-//  }
-//
+  typename list<State<T>*>::iterator itList;
+  stack<State<T>> stackStates;
+  State<T> *firstV = problem->getInitialState();
+//  stackStates.push(*(firstV));
+//  firstV->setColor('b');
 
+  stackStates.push(*(problem->getInitialState()));
+  firstV->setColor('b');
+  while(!stackStates.empty()) {
+    State<T> v = stackStates.top();
+    stackStates.pop();
+    // check if we found the goal
+    if(problem->isGoalState(v)) {
+      State<T> *final = new State<T>(&v);
+      return final;
+    // if we didn't find the goal
+    } else {
+      list<State<T>*> adjList = problem->getAllPossibleStates(v);
+      itList = adjList.begin();
+      // check all neighbors
+      while(itList!=adjList.end()) {
+        // check if the adj was visited brfore
+//        char a = (*(itList))->getColor();
+        if((*(itList))->getColor()!='b') {
+          State<T> *adjV = (*(itList));
+          adjV->setColor('b');
+          adjV = new State<T>(*(itList));
+          cout << "check" << endl;
+          adjV->setCameFrom(&v);
+          stackStates.push(*adjV);
+          cout << "check color" << endl;
+        }
+        advance(itList, 1);
+      } // end of while loop for adj
+    }
+    cout << "inside while that waiting for empty stack" << endl;
 
-
-
-
+  } // end of while loop for taking v from the stack
+  cout << "error: didn't find the goal" << endl;
   return nullptr;
 }
 
