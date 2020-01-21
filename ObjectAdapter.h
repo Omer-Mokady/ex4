@@ -9,13 +9,18 @@
 #include <iostream>
 #include "BestFirstSearch.h"
 #include "DFSAlgo.h"
+#include "BFSAlgo.h"
+#include "AstarAlgo.h"
 
 using namespace std;
 template<typename P, typename S>
 class ObjectAdapter : public Solver<P,S> {
   private:
-      Searcher<pair<int,int>>* BFBest = new BestFirstSearch<pair<int,int>>();
-      Searcher<pair<int,int>>* dsfAlgo = new DFSAlgo<pair<int,int>>();
+      Searcher<pair<int,int>>* bFBest = new BestFirstSearch<pair<int,int>>();
+      Searcher<pair<int,int>>* dfsAlgo = new DFSAlgo<pair<int,int>>();
+      Searcher<pair<int,int>>* bfsAlgo = new BFSAlgo<pair<int,int>>();
+      Searcher<pair<int,int>>* aStar = new AstarAlgo<pair<int,int>>();
+
 
  public:
   ObjectAdapter();
@@ -24,22 +29,21 @@ class ObjectAdapter : public Solver<P,S> {
 };
 template<typename P, typename S>
 S ObjectAdapter<P, S>::solve(P problem) {
-  cout << "in OA, going to DFS" << endl;
-//  State<pair<int,int>>* tempSolution = this->dsfAlgo->Search(problem);
-  State<pair<int,int>>* tempSolution = (this->BFBest->Search(problem));
+  State<pair<int,int>>* finalSolution;
+  State<pair<int,int>>* dfsSolution = this->dfsAlgo->Search(problem);
+  State<pair<int,int>>* bfsSolution = this->bfsAlgo->Search(problem);
+  State<pair<int,int>>* bestSolution = (this->bFBest->Search(problem));
+  State<pair<int,int>>* astarSolution = (this->bFBest->Search(problem));
+  finalSolution = astarSolution;
 
 
 
 
 
-//  State<pair<int,int>>* finalSolution = &tempSolution;
-//  State<pair<int,int>>
+
     cout << "function solve works on ObjectAdapter" << endl;
-//    return finalSolution;
-  //temp - to replace the return value
-//  return (this->BFBest->Search(problem));
-//good
-  return tempSolution;
+
+  return finalSolution;
 }
 template<typename P, typename S>
 ObjectAdapter<P, S>::ObjectAdapter() {

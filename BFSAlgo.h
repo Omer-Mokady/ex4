@@ -1,16 +1,13 @@
 //
-// Created by omer on 20/01/2020.
+// Created by omer on 21/01/2020.
 //
 
-#ifndef EX4__DFSALGO_H_
-#define EX4__DFSALGO_H_
+#ifndef EX4__BFSALGO_H_
+#define EX4__BFSALGO_H_
 #include "Searcher.h"
-#include <stack>
-
-
 
 template<typename T>
-class DFSAlgo : public Searcher<T> {
+class BFSAlgo : public Searcher<T> {
  private:
 
  public:
@@ -18,23 +15,25 @@ class DFSAlgo : public Searcher<T> {
 
 };
 template<typename T>
-State<T> *DFSAlgo<T>::Search(Searchable<T> * problem) {
+State<T> *BFSAlgo<T>::Search(Searchable<T> *problem) {
+
+
   typename list<State<T>*>::iterator itList;
-  stack<State<T>> stackStates;
+  queue<State<T>> qStates;
   State<T> *firstV = problem->getInitialState();
 //  stackStates.push(*(firstV));
 //  firstV->setColor('b');
-
-  stackStates.push(*(problem->getInitialState()));
-  firstV->setColor('b');
-  while(!stackStates.empty()) {
-    State<T> v = stackStates.top();
-    stackStates.pop();
+  qStates.push(*(problem->getInitialState()));
+//  stackStates.push(*(problem->getInitialState()));
+  firstV->setColor('B');
+  while(!qStates.empty()) {
+    State<T> v = qStates.front();
+    qStates.pop();
     // check if we found the goal
     if(problem->isGoalState(v)) {
       State<T> *final = new State<T>(&v);
       return final;
-    // if we didn't find the goal
+      // if we didn't find the goal
     } else {
       list<State<T>*> adjList = problem->getAllPossibleStates(v);
       itList = adjList.begin();
@@ -42,13 +41,13 @@ State<T> *DFSAlgo<T>::Search(Searchable<T> * problem) {
       while(itList!=adjList.end()) {
         // check if the adj was visited brfore
 //        char a = (*(itList))->getColor();
-        if((*(itList))->getColor()!='b') {
+        if((*(itList))->getColor()!='B') {
           State<T> *adjV = (*(itList));
-          adjV->setColor('b');
+          adjV->setColor('B');
           adjV = new State<T>(*(itList));
           cout << "check" << endl;
           adjV->setCameFrom(&v);
-          stackStates.push(*adjV);
+          qStates.push(*adjV);
           cout << "check color" << endl;
         }
         advance(itList, 1);
@@ -61,4 +60,4 @@ State<T> *DFSAlgo<T>::Search(Searchable<T> * problem) {
   return nullptr;
 }
 
-#endif //EX4__DFSALGO_H_
+#endif //EX4__BFSALGO_H_

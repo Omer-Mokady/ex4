@@ -7,7 +7,9 @@
 #include "ClientHandler.h"
 #include "CacheManager.h"
 #include <string>
-#include <string.h>
+//#include <string.h>
+#include <string>
+#include <algorithm>
 #include "Solver.h"
 #include "Searchable.h"
 #include "MatrixProblem.h"
@@ -20,6 +22,13 @@ template<typename P,typename S>
 class MyClientHandler : public ClientHandler{
   ~MyClientHandler(){};
   void handleClient(int socketNumber);
+  /**
+   * delete string's spaces
+   * @param str original string
+   * @return the current string without spaces
+   */
+  string deleteSpaces(string str);
+  string getSolution(string input);
   string fromMatrixGoalStateToString(S);
   string compareMatrixStates(State<pair<int,int>> first, State<pair<int,int>> second);
  private:
@@ -34,7 +43,7 @@ void MyClientHandler<P,S>::handleClient(int socketNumber){
   cout << "inside handleClient" << endl;
 //  string start;
 //  string end;
-  string input="", tempStr, strSolution;
+  string input="", tempStr, strSolution, inputForSearch="";
   char line[1024] = {0};
   string problem1;
   bool endOfInput = false;
@@ -42,24 +51,33 @@ void MyClientHandler<P,S>::handleClient(int socketNumber){
     read(socketNumber, line, 1024);
     tempStr =line;
     input= input+tempStr;
-    if(input.find("end")!= std::string::npos) {
-      endOfInput =true;
+    while(input.find("end")!= std::string::npos) {
+      // if there is '\n' sign after the end
+      if(input[input.find("end") + 3] == '\n') {
+        inputForSearch = input.substr(0, input.find("end")+4);
+        input = input.substr(input.find("end")+4, input.length()-input.find("end")-4);
+        cout << "end with /n" << strSolution << endl;
+      // if there is no '\n' sign after the end
+      } else {
+        inputForSearch = input.substr(0, input.find("end")+3);
+        input = input.substr(input.find("end")+3, input.length()-input.find("end")-3);
+        cout << "end without /n" << strSolution << endl;
+      }
+      inputForSearch = deleteSpaces(inputForSearch);
+      strSolution = getSolution(inputForSearch);
+      cout << "we found final solution: " << strSolution << endl;
+//      endOfInput =true;
     }
   } while(!endOfInput);
-//  read(socketNumber, line, 1024);
-//  start = line;
-//  end = line;
-//  while (!strcmp(line, "end")){
-//    counter++;
-//    if (counter > 2){
-//      start = end;
-//    }
-//    end = line;
-//    problem1.append(line);
-//    problem1.append("@"); //insert directly as line to the state.
-//    read(socketNumber, line, 1024);
-//  }
-  cout << "after getting input from client\n" << endl;
+//  input = deleteSpaces(input);
+//  strSolution = getSolution(input);
+//  cout << "we found final solution: " << strSolution << endl;
+
+}
+
+template<typename P, typename S>
+string MyClientHandler<P, S>::getSolution(string input) {
+  string strSolution;
 
   string goal, initial, strMatrix;
   int goalEndIndex =0, initialEndIndex =0, initialStartIndex =0, i=(input.find("end")), counterMarks=0;
@@ -83,22 +101,11 @@ void MyClientHandler<P,S>::handleClient(int socketNumber){
   strMatrix = input.substr(0, initialStartIndex+1);
 
 
-  // for Omer
   S solution;
-
-  cout << "got new string" << endl;
-  //"1,28,3\n-1,567,6\n7,86,9\n0,1\n2,1\nend";
   // create our problem object
   Searchable<pair<int,int>>* problemObj = new MatrixProblem(strMatrix, initial, goal);
   P newObj;
-//  this->solver->solve(problemObj);
-
-
-
-
   string strProblem = MatrixProblem::toString(input);
-
-
   // try to load solution
   if (this->cache->checkSolutionExistent(strProblem)) {
     cout << "already have the solution for this problem.\n" << endl;
@@ -109,11 +116,10 @@ void MyClientHandler<P,S>::handleClient(int socketNumber){
       cout << "error1" << endl;
       cout << e << endl;
     }
-  // create solution
+    // create solution
   } else {
     solution = this->solver->solve(problemObj);
     cout << "don't have the solution for this problem yet.\n" << endl;
-
     try {
       this->cache->insert(strProblem, solution);
       cout << "we added the solution to the cache" << endl;
@@ -122,18 +128,13 @@ void MyClientHandler<P,S>::handleClient(int socketNumber){
       cout << e << endl;
     }
   }
-
   strSolution = fromMatrixGoalStateToString(solution);
   cout << strSolution << endl;
   cout << "we found solution" << endl;
-  cout << "we found solution" << endl;
-  cout << "we found solution" << endl;
-
-
-
-
-
+  return strSolution;
 }
+
+
 template<typename P, typename S>
 string MyClientHandler<P, S>::compareMatrixStates(State<pair<int, int>> first, State<pair<int, int>> second) {
   string output;
@@ -180,11 +181,24 @@ string MyClientHandler<P, S>::fromMatrixGoalStateToString(S finalState) {
       first = second;
       second = stackStates.top();
       stackStates.pop();
-      solution = solution + " " + compareMatrixStates(*first, *second);
+      if(!solution.empty()) {
+        solution = solution + ", " + compareMatrixStates(*first, *second);
+      } else {
+        solution = compareMatrixStates(*first, *second);
+      }
     }
 
 
   }
   return solution;
 }
+
+template<typename P, typename S>
+string MyClientHandler<P, S>::deleteSpaces(string str) {
+  string::iterator endP = remove(str.begin(), str.end(), ' ');
+  str.erase(endP, str.end());
+  return str;
+}
+
+
 #endif //EX4__MYCLIENTHANDLER_H_
