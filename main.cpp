@@ -13,6 +13,7 @@
 #include "Searcher.h"
 #include "ObjectAdapter.h"
 #include "BFSAlgo.h"
+#include "MyParallelServer.h"
 using namespace std;
 
 Searchable<pair<int,int>>* checkFunc(MatrixProblem* matrix) {
@@ -238,8 +239,12 @@ int main() {
 //  Searcher<pair<int,int>>* dsfAlgo = new DFSAlgo<pair<int,int>>();
 
 
-  MySerialServer *s = new MySerialServer();
-  s->open(5601, new MyClientHandler<Searchable<pair<int,int>>*,State<pair<int,int>>*>());
+//  MySerialServer *s = new MySerialServer();
+  MyParallelServer *s = new MyParallelServer();
+  CacheManager<State<pair<int,int>>*> *cache = new FileCacheManager<State<pair<int,int>>*>(5);
+  Solver<Searchable<pair<int,int>>*,State<pair<int,int>>*> *solver = new ObjectAdapter<Searchable<pair<int,int>>*,State<pair<int,int>>*>();
+
+  s->open(5601, new MyClientHandler<Searchable<pair<int,int>>*,State<pair<int,int>>*>(cache, solver));
 
   return 0;
 }

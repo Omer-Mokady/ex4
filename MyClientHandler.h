@@ -20,6 +20,7 @@ using namespace std;
 
 template<typename P,typename S>
 class MyClientHandler : public ClientHandler{
+
   ~MyClientHandler(){};
   void handleClient(int socketNumber);
   /**
@@ -32,9 +33,17 @@ class MyClientHandler : public ClientHandler{
   string fromMatrixGoalStateToString(S);
   string compareMatrixStates(State<pair<int,int>> first, State<pair<int,int>> second);
  private:
-  CacheManager<S> *cache = new FileCacheManager<S>(5);
+//  CacheManager<S> *cache = new FileCacheManager<S>(5);
+  CacheManager<S> *cache;
+
 //  Solver<P,S> *solver = new ObjectAdapter<P,S>();
-  Solver<P,S> *solver = new ObjectAdapter<P,S>();
+  Solver<P,S> *solver;
+ public:
+  MyClientHandler(CacheManager<S> *cache, Solver<P,S> *solver);
+  ClientHandler *getClone() {
+    return new MyClientHandler(this->cache, this->solver->getClone());
+  }
+
 
 };
 template<typename P,typename S>
@@ -54,21 +63,7 @@ void MyClientHandler<P,S>::handleClient(int socketNumber){
     if(input.find("end")!= std::string::npos) {
       endOfInput = true;
     }
-//      // if there is '\n' sign after the end
-//      if(input[input.find("end") + 3] == '\n') {
-//        inputForSearch = input.substr(0, input.find("end")+4);
-//        input = input.substr(input.find("end")+4, input.length()-input.find("end")-4);
-//        cout << "end with /n" << strSolution << endl;
-//      // if there is no '\n' sign after the end
-//      } else {
-//        inputForSearch = input.substr(0, input.find("end")+3);
-//        input = input.substr(input.find("end")+3, input.length()-input.find("end")-3);
-//        cout << "end without /n" << strSolution << endl;
-//      }
-//      inputForSearch = deleteSpaces(inputForSearch);
-//      strSolution = getSolution(inputForSearch);
-//      cout << "we found final solution: " << strSolution << endl;
-////      endOfInput =true;
+
 
   } while(!endOfInput);
   input = deleteSpaces(input);
@@ -230,6 +225,10 @@ string MyClientHandler<P, S>::deleteSpaces(string str) {
   str.erase(endP, str.end());
   return str;
 }
-
+template<typename P, typename S>
+MyClientHandler<P, S>::MyClientHandler(CacheManager<S> *cache1, Solver<P,S> *solver1) {
+  this->cache = cache1;
+  this->solver = solver1;
+}
 
 #endif //EX4__MYCLIENTHANDLER_H_

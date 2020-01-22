@@ -16,6 +16,7 @@ class ClientHandler {
  public:
   virtual void handleClient(int socketNumber) = 0;
   virtual ~ClientHandler() {}
+  virtual ClientHandler *getClone() = 0;
 };
 
 

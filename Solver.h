@@ -10,5 +10,6 @@ class Solver {
 
   virtual ~Solver() {};
   virtual S solve(P) = 0;
+  virtual Solver *getClone() =0;
 };
 #endif //EX4__SOLVER_H_

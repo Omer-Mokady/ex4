@@ -26,6 +26,8 @@ class ObjectAdapter : public Solver<P,S> {
   ObjectAdapter();
   ~ObjectAdapter(){};
   S solve(P);
+  Solver<P,S> *getClone();
+
 };
 template<typename P, typename S>
 S ObjectAdapter<P, S>::solve(P problem) {
@@ -53,6 +55,10 @@ S ObjectAdapter<P, S>::solve(P problem) {
 template<typename P, typename S>
 ObjectAdapter<P, S>::ObjectAdapter() {
 
+}
+template<typename P, typename S>
+Solver<P,S> *ObjectAdapter<P, S>::getClone() {
+  return new ObjectAdapter<P,S>();
 }
 
 #endif //EX4__OBJECTADAPTER_H_

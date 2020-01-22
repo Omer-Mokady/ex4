@@ -23,7 +23,7 @@ void MyParallelServer::open(int portNumber, ClientHandler *clientHandler) {
     cout << "bind the socket to the ip" << endl;
   }
 
-  if (listen(socketfd, 1) == -1) {
+  if (listen(socketfd, 10) == -1) {
     throw "Error during listening command\n";
   } else {
     cout << "listening command is ok" << endl;
@@ -65,6 +65,7 @@ void MyParallelServer::stop(int socketToClose) {
 
 void MyParallelServer::ClientHandlerThread(int socket, ClientHandler *clientHandler) {
   //check if we need to use copy constructor for clientHandler ot mutex.
-  clientHandler->handleClient(socket);
+  ClientHandler *clientHandler2 = clientHandler->getClone();
+  clientHandler2->handleClient(socket);
   this->stop(socket);
 }
