@@ -34,6 +34,11 @@ S ObjectAdapter<P, S>::solve(P problem) {
   State<pair<int,int>>* bfsSolution = this->bfsAlgo->Search(problem);
   State<pair<int,int>>* bestSolution = (this->bFBest->Search(problem));
   State<pair<int,int>>* astarSolution = (this->bFBest->Search(problem));
+
+
+
+
+
   finalSolution = astarSolution;
 
 

@@ -51,24 +51,55 @@ void MyClientHandler<P,S>::handleClient(int socketNumber){
     read(socketNumber, line, 1024);
     tempStr =line;
     input= input+tempStr;
-    while(input.find("end")!= std::string::npos) {
-      // if there is '\n' sign after the end
-      if(input[input.find("end") + 3] == '\n') {
-        inputForSearch = input.substr(0, input.find("end")+4);
-        input = input.substr(input.find("end")+4, input.length()-input.find("end")-4);
-        cout << "end with /n" << strSolution << endl;
-      // if there is no '\n' sign after the end
-      } else {
-        inputForSearch = input.substr(0, input.find("end")+3);
-        input = input.substr(input.find("end")+3, input.length()-input.find("end")-3);
-        cout << "end without /n" << strSolution << endl;
-      }
-      inputForSearch = deleteSpaces(inputForSearch);
-      strSolution = getSolution(inputForSearch);
-      cout << "we found final solution: " << strSolution << endl;
-//      endOfInput =true;
+    if(input.find("end")!= std::string::npos) {
+      endOfInput = true;
     }
+//      // if there is '\n' sign after the end
+//      if(input[input.find("end") + 3] == '\n') {
+//        inputForSearch = input.substr(0, input.find("end")+4);
+//        input = input.substr(input.find("end")+4, input.length()-input.find("end")-4);
+//        cout << "end with /n" << strSolution << endl;
+//      // if there is no '\n' sign after the end
+//      } else {
+//        inputForSearch = input.substr(0, input.find("end")+3);
+//        input = input.substr(input.find("end")+3, input.length()-input.find("end")-3);
+//        cout << "end without /n" << strSolution << endl;
+//      }
+//      inputForSearch = deleteSpaces(inputForSearch);
+//      strSolution = getSolution(inputForSearch);
+//      cout << "we found final solution: " << strSolution << endl;
+////      endOfInput =true;
+
   } while(!endOfInput);
+  input = deleteSpaces(input);
+  int startPoint = 0, i=0, counterCommas =0;
+  bool oneCommaBefore = false;
+  string tempStr1 = "";
+  for(i=0; i<input.length()-1; i++) {
+    if(input.find("end") == i) {
+      break;
+    }
+    if(input[i] == ',') {
+      counterCommas++;
+    } else if(input[i] == '\n') {
+      if(counterCommas == 1) {
+        if(!oneCommaBefore) {
+          oneCommaBefore = true;
+        } else {
+          inputForSearch = input.substr(startPoint, i+1);
+          startPoint = i+1;
+          strSolution = getSolution(inputForSearch);
+          cout << "we found final solution: " << strSolution << endl;
+          oneCommaBefore = false;
+        }
+      }
+      counterCommas = 0;
+    }
+  }
+
+
+
+
 //  input = deleteSpaces(input);
 //  strSolution = getSolution(input);
 //  cout << "we found final solution: " << strSolution << endl;
@@ -80,7 +111,7 @@ string MyClientHandler<P, S>::getSolution(string input) {
   string strSolution;
 
   string goal, initial, strMatrix;
-  int goalEndIndex =0, initialEndIndex =0, initialStartIndex =0, i=(input.find("end")), counterMarks=0;
+  int goalEndIndex =0, initialEndIndex =0, initialStartIndex =0, i=input.length()-1, counterMarks=0;
   // divide input into 3 different strings: matrix, initial and goal
   while(i>0) {
     if(input[i] == '\n') {

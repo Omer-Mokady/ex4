@@ -12,6 +12,7 @@
 #include "MatrixProblem.h"
 #include "Searcher.h"
 #include "ObjectAdapter.h"
+#include "BFSAlgo.h"
 using namespace std;
 
 Searchable<pair<int,int>>* checkFunc(MatrixProblem* matrix) {
@@ -59,6 +60,9 @@ class Employee
 const string Employee::class_name = "EmployeeClass";
 */
 int main() {
+
+
+
   // for gal:
   string s1 = "1,28,3,54\n";
   string s2 = "4,567,6,32\n";
@@ -70,12 +74,31 @@ int main() {
 // State<pair<int,int>> tempState = (matrix->getInitialState());
 
 
-// Searcher<pair<int,int>,string> algoBFS = new BFSClassExample();
-  MatrixProblem* newMatrix = new MatrixProblem(str, initial, goal);
+//  MatrixProblem* newMatrix = new MatrixProblem(str, initial, goal);
+//  Searcher<pair<int,int>>* bfsAlgo = new BFSAlgo<pair<int,int>>();
+//  State<pair<int,int>>* tempSolution = bfsAlgo->Search(newMatrix);
+//  cout << "end" << endl;
+
+
+
+
+
+
+
+
 //  checkFunc(newMatrix);
-   State<pair<int, int>> *tempState1 = new State<pair<int, int>>(2, pair<int, int>(1, 1));
-  State<pair<int, int>> *tempState2 = new State<pair<int, int>>(2, pair<int, int>(1, 1));
-  list<State<pair<int, int>>*> newList = newMatrix->getAllPossibleStates(*tempState1);
+//   State<pair<int, int>> *tempState1 = new State<pair<int, int>>(2, pair<int, int>(1, 1));
+//   int a =0;
+//   tempState1->setColor('b');
+//   a=1;
+//   if(tempState1->getColor() == 'b')
+//   {
+//         cout << "we got 'b'" << endl;
+//   } else if(tempState1->getColor() != 'b') {
+//     cout << "we didn't!! got 'b'" << endl;
+//   }
+//  State<pair<int, int>> *tempState2 = new State<pair<int, int>>(2, pair<int, int>(1, 1));
+//  list<State<pair<int, int>>*> newList = newMatrix->getAllPossibleStates(*tempState1);
 //    cout << "1 is good" << endl;
 
 
@@ -211,6 +234,8 @@ int main() {
 //works:
 //  MySerialServer *s = new MySerialServer();
 //  s->open(5601, new MyClientHandler<Searchable<pair<int,int>>*,string>());
+
+//  Searcher<pair<int,int>>* dsfAlgo = new DFSAlgo<pair<int,int>>();
 
 
   MySerialServer *s = new MySerialServer();

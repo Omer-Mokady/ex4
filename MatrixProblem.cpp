@@ -10,7 +10,6 @@ list<State<pair<int, int>> *> MatrixProblem::getAllPossibleStates(State<pair<int
   row = state.getCurState().first;
   col = state.getCurState().second;
   int rowSize = this->matrix.size();
-  cout << "rowSize is: " << rowSize << endl;
   // get upper state
   if (row > 0) {
 //    statesList.push_front(*(this->matrix[row - 1][col]));
@@ -21,7 +20,6 @@ list<State<pair<int, int>> *> MatrixProblem::getAllPossibleStates(State<pair<int
   // get right state
   if (!matrix.empty()) {
     colSize = this->matrix[0].size();
-    cout << "colSize is: " << colSize << endl;
     if (col < colSize - 1) {
 //      statesList.push_front(*(this->matrix[row + 1][col]));
       if (this->matrix[row][col + 1]->getCost() != -1) {
