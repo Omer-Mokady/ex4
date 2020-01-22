@@ -40,6 +40,7 @@ State<T> *BestFirstSearch<T>::Search(Searchable<T> *s) {
     closed->insert(n);
     if (s->isGoalState(n)) {
       State<T> *ret = new State<T>(&n);
+      cout << "found solution in BestFS" << endl;
       return ret;
     }
     auto successors = s->getAllPossibleStates(n); // creating list of adjacent cells in matrix.
@@ -78,7 +79,7 @@ bool BestFirstSearch<T>::isInQueue(State<T> s, set<State<T>> *tracker) {
   typename set<State<T>>::iterator it = copy->begin();
   for (it; it != copy->end(); advance(it, 1)) {
     if (s.equals(*(it))) {
-      cout << "found it!" << endl;
+//      cout << "found it!" << endl;
       return true;
     }
   }

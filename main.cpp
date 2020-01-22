@@ -16,8 +16,7 @@
 #include "MyParallelServer.h"
 using namespace std;
 
-Searchable<pair<int,int>>* checkFunc(MatrixProblem* matrix) {
-
+Searchable<pair<int, int>> *checkFunc(MatrixProblem *matrix) {
 
   matrix->matrix[1][1]->setCameFrom(matrix->initialState);
   cout << "inside checkFunc" << endl;
@@ -70,7 +69,7 @@ int main() {
   string s3 = "7,86,9,84\n";
   string initial = "0,1\n";
   string goal = "2,1\n";
-  string str = s1+s2+s3;
+  string str = s1 + s2 + s3;
 // Searchable<pair<int,int>>* matrix = new MatrixProblem(str, initial, goal);
 // State<pair<int,int>> tempState = (matrix->getInitialState());
 
@@ -125,7 +124,7 @@ int main() {
 // solution = BFSClassExample.search(matrix);
 
 
-     // end for gal
+  // end for gal
 
 
 
@@ -241,10 +240,13 @@ int main() {
 
 //  MySerialServer *s = new MySerialServer();
   MyParallelServer *s = new MyParallelServer();
-  CacheManager<State<pair<int,int>>*> *cache = new FileCacheManager<State<pair<int,int>>*>(5);
-  Solver<Searchable<pair<int,int>>*,State<pair<int,int>>*> *solver = new ObjectAdapter<Searchable<pair<int,int>>*,State<pair<int,int>>*>();
+//  MySerialServer *s = new MySerialServer();
 
-  s->open(5601, new MyClientHandler<Searchable<pair<int,int>>*,State<pair<int,int>>*>(cache, solver));
+  CacheManager<State<pair<int, int>> *> *cache = new FileCacheManager<State<pair<int, int>> *>(5);
+  Solver<Searchable<pair<int, int>> *, State<pair<int, int>> *>
+      *solver = new ObjectAdapter<Searchable<pair<int, int>> *, State<pair<int, int>> *>();
+
+  s->open(5600, new MyClientHandler<Searchable<pair<int, int>> *, State<pair<int, int>> *>(cache, solver));
 
   return 0;
 }

@@ -27,7 +27,7 @@ void MySerialServer::open(int portNumber, ClientHandler *clientHandler) {
     cout << "bind the socket to the ip" << endl;
   }
 
-  if (listen(socketfd, 1) == -1) {
+  if (listen(socketfd, 10) == -1) {
     throw "Error during listening command\n";
   } else {
     cout << "listening command is ok" << endl;

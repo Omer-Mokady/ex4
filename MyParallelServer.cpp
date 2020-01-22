@@ -16,14 +16,15 @@ void MyParallelServer::open(int portNumber, ClientHandler *clientHandler) {
   address.sin_family = AF_INET;
   address.sin_addr.s_addr = INADDR_ANY;
   address.sin_port = htons(portNumber);
-
+  int optval = 1;
+  setsockopt(socketfd, SOL_SOCKET, SO_REUSEPORT, &optval, sizeof(optval));
   if (bind(socketfd, (struct sockaddr *) &address, sizeof(address)) == -1) {
     throw "Could not bind the socket to the ip\n";
   } else {
     cout << "bind the socket to the ip" << endl;
   }
 
-  if (listen(socketfd, 10) == -1) {
+  if (listen(socketfd, 1) == -1) {
     throw "Error during listening command\n";
   } else {
     cout << "listening command is ok" << endl;
@@ -44,6 +45,7 @@ void MyParallelServer::Start(int port, ClientHandler *clientHandler) {
   while (true) {
     cout << "inside parallel while!" << endl;
     newsockfd = accept(this->socketNumber, (struct sockaddr *) &cli_addr, (socklen_t *) &clilen);
+    cout << "opened socket " << newsockfd << endl;
     if (newsockfd == -1) {
       if (errno == EWOULDBLOCK) {
         cout << "timeOut!\n";

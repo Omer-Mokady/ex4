@@ -11,13 +11,12 @@
 /**
    * ClientHandler Interface
    */
-class ClientHandler {
 
+class ClientHandler {
  public:
   virtual void handleClient(int socketNumber) = 0;
   virtual ~ClientHandler() {}
   virtual ClientHandler *getClone() = 0;
 };
-
 
 #endif //EX4__CLIENTHANDLER_H_
