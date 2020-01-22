@@ -40,33 +40,49 @@ State<T> *AstarAlgo<T>::Search(Searchable<T> *s) {
     typename list<State<pair<int, int>> *>::iterator it = successors.begin();
     for (it; it != successors.end(); advance(it, 1)) {
       State<T> temp = new State<T>(*it);
-      temp.setCameFrom(&q);
-      temp.setPathCost(q.getPathCost() + (*it)->getCost()); //this is the g
-      temp.setHeuristic(calculateHeuristic(temp, goalState)); // this is the h
+//      temp.setCameFrom(&q);
+//      temp.setPathCost(q.getPathCost() + (*it)->getCost()); //this is the g
+//      temp.setHeuristic(calculateHeuristic(temp, goalState)); // this is the h
       if (s->isGoalState(*it)) {
+        temp.setCameFrom(&q);
+        temp.setPathCost(q.getPathCost() + (*it)->getCost()); //this is the g
+        temp.setHeuristic(calculateHeuristic(temp, goalState)); // this is the h
         State<T> *ret = new State<T>(&temp);
         return ret;
       }
-      for (typename set<State<T>>::iterator it = _open->begin(); it != _open->end(); advance(it, 1)) {
-        if (temp.equals(*it)) {
-          if (calculateHeuristic(temp, goalState) < calculateHeuristic((*it), goalState)) {
-            _open->erase(it);
+      for (typename set<State<T>>::iterator openIt = _open->begin(); openIt != _open->end(); advance(openIt, 1)) {
+        if (temp.equals(*openIt)) {
+          hasChanged = true;
+          if (calculateHeuristic(temp, goalState) < calculateHeuristic((*openIt), goalState)) {
+            _open->erase(openIt);
+            temp.setCameFrom(&q);
+            temp.setPathCost(q.getPathCost() + (*it)->getCost()); //this is the g
+            temp.setHeuristic(calculateHeuristic(temp, goalState)); // this is the h
             counter++;
             _open->insert(temp);
             hasChanged = true;
           }
         }
       }
-      for (typename set<State<T>>::iterator it = _closed->begin(); it != _closed->end(); advance(it, 1)) {
-        if (temp.equals(*it)) {
-          if (calculateHeuristic(temp, goalState) < calculateHeuristic((*it), goalState)) {
-            _closed->erase(it);
+      for (typename set<State<T>>::iterator closedIt = _closed->begin(); closedIt != _closed->end();
+           advance(closedIt, 1)) {
+        if (temp.equals(*closedIt)) {
+          hasChanged = true;
+          if (calculateHeuristic(temp, goalState) < calculateHeuristic((*closedIt), goalState)) {
+
+            _closed->erase(closedIt);
+            temp.setCameFrom(&q);
+            temp.setPathCost(q.getPathCost() + (*it)->getCost()); //this is the g
+            temp.setHeuristic(calculateHeuristic(temp, goalState)); // this is the h
             _open->insert(temp);
             hasChanged = true;
           }
         }
       }
       if (!hasChanged) {
+        temp.setCameFrom(&q);
+        temp.setPathCost(q.getPathCost() + (*it)->getCost()); //this is the g
+        temp.setHeuristic(calculateHeuristic(temp, goalState)); // this is the h
         hasChanged = false;
         _open->insert(temp);
       }
