@@ -21,28 +21,19 @@ class BestFirstSearch : public Searcher<T> {
  private:
   int counter = 0;
   bool isInQueue(State<T> s, set<State<T>> *tracker);
-//  bool isInQueue(State<T> *s, set<State<T> *> *tracker);
   bool isInClosedSet(State<T> s, set<State<T>> *closed);
-//  bool isInClosedSet(State<T> *s, set<State<T> *> *closed);
   void relocateInQueue(State<T> s, int newCost, priority_queue<State<T>> *q);
-//  void relocateInQueue(State<T> *s, int newCost, priority_queue<State<T> *> *q);
   priority_queue<State<T>> *_open = new priority_queue<State<T>>;
-//  priority_queue<State<T>> *_open = new priority_queue<State<T>>;
   set<State<T>> *_queueTracker = new set<State<T>>();
-//  set<State<T> *> *_queueTracker = new set<State<T> *>();
 };
 
 template<typename T>
 State<T> *BestFirstSearch<T>::Search(Searchable<T> *s) {
   _open->push(*(s->getInitialState()));
-//  _open->push((s->getInitialState()));
   _queueTracker->insert(*(s->getInitialState())); //tracker set - use us to find element in the queue in O(1).
-//  _queueTracker->insert((s->getInitialState())); //tracker set - use us to find element in the queue in O(1).
-  set<State<T>> *closed = new set<State<T>>();
-//  set<State<T> *> *closed = new set<State<T> *>();
+  set<State<T>> *closed = new set<State<T>>(); // set of closed State<T>.
   while (_open->size() > 0) {
-    State<T> n = _open->top();
-//    State<T> *n = _open->top();
+    State<T> n = _open->top(); //the top of the priority queue.
     _open->pop();
     counter++;
     _queueTracker->erase(n);
@@ -51,41 +42,28 @@ State<T> *BestFirstSearch<T>::Search(Searchable<T> *s) {
       State<T> *ret = new State<T>(&n);
       return ret;
     }
-    auto successors = s->getAllPossibleStates(n);
-//    auto successors = s->getAllPossibleStates(*n);
+    auto successors = s->getAllPossibleStates(n); // creating list of adjacent cells in matrix.
     typename list<State<pair<int, int>> *>::iterator it = successors.begin();
     for (it; it != successors.end(); advance(it, 1)) {
-//      State<T> *stateDebugger = (*it);
       if (!isInClosedSet(*(*it), closed) && !isInQueue(*(*it), _queueTracker)) { //not in queue and not in closed set.
-//      if (!isInClosedSet((*it), closed) && !isInQueue((*it), _queueTracker)) { //not in queue and not in closed set.
         State<T> temp = new State<T>(*it);
-        temp.setCameFrom(&n);
-//        (*it)->setCameFrom(&n); //update that the successor prev is n.
+        temp.setCameFrom(&n); //setting the previous as n.
         temp.setPathCost(n.getPathCost() + (*it)->getCost());
-//        (*it)->setPathCost(n.getPathCost() + (*it)->getCost()); //update that the successor path cost is his + so far.
         _open->push(temp);
-//        _open->push(*(*it)); //push the successor into the open list.
         _queueTracker->insert(temp);
-//        _queueTracker->insert(*(*it)); //push the successor into the tracker set.
+        // else - we need to check if the path from n is a batter way to get to the successor than what we have now.
       } else {
-
-//        State<T> *stateDebugger2 = (*it);
         State<T> temp2 = new State<T>(*it);
-        int currCost = (*it)->getPathCost();
-        int optionalCost = (*it)->getCost() + n.getPathCost();
+        int currCost = (*it)->getPathCost(); //current path cost.
+        int optionalCost = (*it)->getCost() + n.getPathCost(); // the cost if we were arrived to this cell from n.
         if (optionalCost < currCost) {
           if (!isInQueue(*(*it), _queueTracker)) {
             temp2.setCameFrom(&n);
-//            (*it)->setCameFrom(&n);
             temp2.setPathCost(optionalCost);
-//            (*it)->setPathCost(optionalCost);
             _open->push(temp2);
-//            _open->push(*(*it));
             _queueTracker->insert(temp2);
-//            _queueTracker->insert(*(*it));
           } else {
-            relocateInQueue(temp2, optionalCost, _open);
-//            relocateInQueue((*(*it)), optionalCost, _open);
+            relocateInQueue(temp2, optionalCost, _open); //
           }
         }
       }
