@@ -20,18 +20,18 @@ class BestFirstSearch : public Searcher<T> {
   int getNodesNumber();
  private:
   int counter = 0;
-  bool isInQueue(State<T> s, set<State<T>> *tracker);
-  bool isInClosedSet(State<T> s, set<State<T>> *closed);
+  bool isInQueue(State<T> s, multiset<State<T>> *tracker);
+  bool isInClosedSet(State<T> s, multiset<State<T>> *closed);
   void relocateInQueue(State<T> s, int newCost, priority_queue<State<T>> *q);
   priority_queue<State<T>> *_open = new priority_queue<State<T>>;
-  set<State<T>> *_queueTracker = new set<State<T>>();
+  multiset<State<T>> *_queueTracker = new multiset<State<T>>();
 };
 
 template<typename T>
 State<T> *BestFirstSearch<T>::Search(Searchable<T> *s) {
   _open->push(*(s->getInitialState()));
   _queueTracker->insert(*(s->getInitialState())); //tracker set - use us to find element in the queue in O(1).
-  set<State<T>> *closed = new set<State<T>>(); // set of closed State<T>.
+  multiset<State<T>> *closed = new multiset<State<T>>(); // set of closed State<T>.
   while (_open->size() > 0) {
     State<T> n = _open->top(); //the top of the priority queue.
     _open->pop();
@@ -74,9 +74,9 @@ State<T> *BestFirstSearch<T>::Search(Searchable<T> *s) {
 
 //
 template<typename T>
-bool BestFirstSearch<T>::isInQueue(State<T> s, set<State<T>> *tracker) {
-  set<State<T>> *copy = tracker;
-  typename set<State<T>>::iterator it = copy->begin();
+bool BestFirstSearch<T>::isInQueue(State<T> s, multiset<State<T>> *tracker) {
+  multiset<State<T>> *copy = tracker;
+  typename multiset<State<T>>::iterator it = copy->begin();
   for (it; it != copy->end(); advance(it, 1)) {
     if (s.equals(*(it))) {
 //      cout << "found it!" << endl;
@@ -90,9 +90,9 @@ bool BestFirstSearch<T>::isInQueue(State<T> s, set<State<T>> *tracker) {
 }
 
 template<typename T>
-bool BestFirstSearch<T>::isInClosedSet(State<T> s, set<State<T>> *closed) {
-  set<State<T>> *copy = closed;
-  typename set<State<T>>::iterator it = copy->begin();
+bool BestFirstSearch<T>::isInClosedSet(State<T> s, multiset<State<T>> *closed) {
+  multiset<State<T>> *copy = closed;
+  typename multiset<State<T>>::iterator it = copy->begin();
   for (it; it != copy->end(); advance(it, 1)) {
     if (s.equals(*(it))) {
       return true;

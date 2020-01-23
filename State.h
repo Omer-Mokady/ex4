@@ -90,7 +90,8 @@ void State<T>::setCameFrom(State<T> *prevState) {
 }
 template<typename T>
 bool State<T>::equals(State<T> state1) {
-  return (state1.getCurState() == this->curState);
+//  return (state1.getCurState() == this->curState);
+  return (state1.getCurState().first == this->curState.first && state1.getCurState().second == this->curState.second);
 }
 
 template<typename T>
