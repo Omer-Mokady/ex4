@@ -15,13 +15,30 @@ using namespace std;
 template <typename S>
 class CacheManager {
  protected:
+  // limit size of space in the cache
   unsigned int limitSize = 5;
  public:
+  // the cache;
   unordered_map<string, typename list<pair<string, S>>::iterator> cacheMap;
-//  unordered_map<string, typename list<pair<string, T>>::iterator> cacheMap;
+  // list for priority for the cache
   list<pair<string, S>> cacheList;
+  /**
+   * insert object S to the cache
+   * @param key name of object
+   * @param obj the object we want to save
+   */
   virtual void insert(string key, S obj) = 0;
+  /**
+   * load our solution
+   * @param key name of the solution
+   * @return solution S
+   */
   virtual S get(string key) = 0;
+  /**
+   * check if the solution exist in the cache
+   * @param key name of the solution
+   * @return boolean answer
+   */
   virtual bool  checkSolutionExistent(string key) = 0;
   virtual void  foreach(const function<void(S&)> func) = 0;
 };
@@ -130,10 +147,6 @@ class FileCacheManager : public CacheManager<S> {
     }
   }
 
-
 };
-
-
-
 
 #endif //EX4__CACHEMANAGER_H_

@@ -89,6 +89,7 @@ State<T> *AstarNew<T>::Search(Searchable<T> *s) {
       }
       if (s->isGoalState(successor)) {
         State<T> *ret = new State<T>(&successor);
+        ret->numEvaluate = this->getNodesNumber();
         return ret;
       }
     } //end of successors for loop.
@@ -123,6 +124,10 @@ template<typename T>
 int AstarNew<T>::calculateHeuristic(State<T> curr, State<T> goal) {
   return abs(curr.getCurState().first - goal.getCurState().first)
       + abs(curr.getCurState().second - goal.getCurState().second);
+}
+template<typename T>
+int AstarNew<T>::getNodesNumber() {
+  return this->counter;
 }
 
 #endif //EX4__ASTARNEW_H_

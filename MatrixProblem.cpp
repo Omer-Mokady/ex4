@@ -4,6 +4,7 @@
 
 #include "MatrixProblem.h"
 
+
 list<State<pair<int, int>> *> MatrixProblem::getAllPossibleStates(State<pair<int, int>> state) {
   int row = 0, col = 0, colSize = 0;
   list<State<pair<int, int>> *> statesList;

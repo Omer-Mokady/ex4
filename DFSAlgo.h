@@ -17,20 +17,20 @@ class DFSAlgo : public Searcher<T> {
 };
 template<typename T>
 State<T> *DFSAlgo<T>::Search(Searchable<T> *problem) {
+  int counterEvaluate = 0;
   typename list<State<T> *>::iterator itList;
   stack<State<T>> stackStates;
   State<T> *firstV = problem->getInitialState();
-//  stackStates.push(*(firstV));
-//  firstV->setColor('b');
-
   stackStates.push(*(problem->getInitialState()));
   firstV->setColor('b');
   while (!stackStates.empty()) {
     State<T> v = stackStates.top();
     stackStates.pop();
+    counterEvaluate++;
     // check if we found the goal
     if (problem->isGoalState(v)) {
       State<T> *final = new State<T>(&v);
+      final->numEvaluate = counterEvaluate;
       return final;
       // if we didn't find the goal
     } else {
@@ -46,6 +46,7 @@ State<T> *DFSAlgo<T>::Search(Searchable<T> *problem) {
           adjV = new State<T>(*(itList));
 //          cout << "check" << endl;
           adjV->setCameFrom(&v);
+          adjV->setPathCost(adjV->getCost()+v.getPathCost());
           stackStates.push(*adjV);
 //          cout << "check color" << endl;
         }

@@ -12,26 +12,23 @@ class BFSAlgo : public Searcher<T> {
 
  public:
   virtual State<T>* Search(Searchable<T> *);
-
 };
 template<typename T>
 State<T> *BFSAlgo<T>::Search(Searchable<T> *problem) {
-
-
+  int counterEvaluate = 0;
   typename list<State<T>*>::iterator itList;
   queue<State<T>> qStates;
   State<T> *firstV = problem->getInitialState();
-//  stackStates.push(*(firstV));
-//  firstV->setColor('b');
   qStates.push(*(problem->getInitialState()));
-//  stackStates.push(*(problem->getInitialState()));
   firstV->setColor('B');
   while(!qStates.empty()) {
     State<T> v = qStates.front();
     qStates.pop();
+    counterEvaluate++;
     // check if we found the goal
     if(problem->isGoalState(v)) {
       State<T> *final = new State<T>(&v);
+      final->numEvaluate = counterEvaluate;
       return final;
       // if we didn't find the goal
     } else {
@@ -40,23 +37,19 @@ State<T> *BFSAlgo<T>::Search(Searchable<T> *problem) {
       // check all neighbors
       while(itList!=adjList.end()) {
         // check if the adj was visited brfore
-//        char a = (*(itList))->getColor();
         if((*(itList))->getColor()!='B') {
           State<T> *adjV = (*(itList));
           adjV->setColor('B');
           adjV = new State<T>(*(itList));
-          cout << "check" << endl;
           adjV->setCameFrom(&v);
+          adjV->setPathCost(adjV->getCost()+v.getPathCost());
           qStates.push(*adjV);
-          cout << "check color" << endl;
         }
         advance(itList, 1);
       } // end of while loop for adj
     }
-    cout << "inside while that waiting for empty stack" << endl;
-
   } // end of while loop for taking v from the stack
-  cout << "error: didn't find the goal" << endl;
+  // if we didn't find our goal
   return nullptr;
 }
 

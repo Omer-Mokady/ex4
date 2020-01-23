@@ -73,6 +73,7 @@ void MyClientHandler<P, S>::handleClient(int socketNumber) {
   bool oneCommaBefore = false;
   string tempStr1 = "";
   for (i = 0; i < input.length() - 1; i++) {
+    cout << input[i] << endl;
     if (input.find("end") == i) {
       break;
     }
@@ -83,8 +84,10 @@ void MyClientHandler<P, S>::handleClient(int socketNumber) {
         if (!oneCommaBefore) {
           oneCommaBefore = true;
         } else {
+          cout << "inputForSearch: " << inputForSearch << endl;
           inputForSearch = input.substr(startPoint, i + 1);
           startPoint = i + 1;
+
           strSolution = getSolution(inputForSearch);
 //          cout << "we found final solution: " << strSolution << endl;
           send(socketNumber, strSolution.c_str(), strSolution.length(), 0);
@@ -156,6 +159,11 @@ string MyClientHandler<P, S>::getSolution(string input) {
       cout << e << endl;
     }
   }
+  if(solution == nullptr) {
+    cout << "Our final solution is nullpointer" << endl;
+    strSolution = "there is no access to the goal.\n";
+    return strSolution;
+  }
   strSolution = fromMatrixGoalStateToString(solution);
   cout << strSolution << endl;
   cout << "we found solution" << endl;
@@ -223,6 +231,7 @@ template<typename P, typename S>
 string MyClientHandler<P, S>::deleteSpaces(string str) {
   string::iterator endP = remove(str.begin(), str.end(), ' ');
   str.erase(endP, str.end());
+
   return str;
 }
 template<typename P, typename S>

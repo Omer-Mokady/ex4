@@ -14,6 +14,7 @@ class StringReverser : public Solver<string, string>{
  public:
   ~StringReverser(){};
   string solve(string);
+  Solver *getClone();
 };
 
 #endif //EX4__STRINGREVERSER_H_

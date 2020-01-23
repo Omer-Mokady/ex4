@@ -9,3 +9,6 @@ string StringReverser::solve(string problem) {
   reverse(answer.begin(), answer.end());
   return answer;
 }
+Solver<string, string> *StringReverser::getClone() {
+  return new StringReverser();
+}

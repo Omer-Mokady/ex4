@@ -12,14 +12,62 @@ template<typename T>
 class State {
   //end
  public:
+  int f;
+  int numEvaluate = 0;
+  int getConstF() const {
+    return this->f;
+  }
+  int getF() {
+    return this->f;
+  }
+  void setF(int val) {
+    this->f = val;
+  }
+  /**
+   * check if State objects are equal.
+   * @param state1  certain state
+   * @return boolean answer
+   */
   bool equals(State<T> state1);
+  /**
+   * Constructor
+   * @param cost value of certain state
+   * @param state currentState (location. index)
+   */
   State(int cost, T state);
+  /**
+   * Constructor
+   */
   State();
+  /**
+   * Structor. make a copy
+   * @param other other state
+   */
   State(State<T> *other);
+  /**
+   * get cost value
+   * @return cost value
+   */
   int getCost();
+  /**
+   * get current state value (location)
+   * @return current state value (location)
+   */
   T getCurState();
+  /**
+   * get the State object that we came from
+   * @return State object that we came from
+   */
   State<T> *getCameFrom();
+  /**
+   * Set the State object that we came from
+   * @param prevState State object that we came from
+   */
   void setCameFrom(State<T> *prevState);
+  /**
+   * set cost value
+   * @param cost cost value
+   */
   void setCost(int cost);
 
 //  //added by gal on 18.1
@@ -29,24 +77,51 @@ class State {
     }
     return (cost > other.pathCost);
   }
-  bool operator==(const State<T> &other) const;
-  bool operator>(const State<T> &other) const {
-    return ((heuristic + pathCost) < (other.heuristic + other.pathCost));
-  }
 
+  bool operator==(const State<T> &other) const;
+
+  /**
+   * set color value
+   * @param color color value
+   */
   void setColor(char color);
+  /**
+   * get sum of path cost
+   * @return sum of path cost
+   */
   int getPathCost();
+  /**
+   * set sum of path cost
+   * @param cost sum of path cost
+   */
   void setPathCost(int cost);
+  /**
+   * get color value
+   * @return color value
+   */
   char getColor();
+  /**
+   * get Heuristic value
+   * @return Heuristic value
+   */
   int getHeuristic();
+  /**
+   * set Heuristic value
+   * @param newHeuristic Heuristic value
+   */
   void setHeuristic(int newHeuristic);
  private:
-
+  // current state (location)
   T curState;
+  // the state where we came from
   State<T> *cameFrom;
+  // cost value
   int cost;
+  // path cost value
   int pathCost;
+  // heuristic value
   int heuristic;
+  // color value
   char color;
 };
 
@@ -58,6 +133,7 @@ State<T>::State(int cost1, T state) {
   this->curState = state;
   this->color = 'w';
   this->heuristic = 0;
+  this->f = 0;
 }
 
 template<typename T>
@@ -68,6 +144,7 @@ State<T>::State(State<T> *other) {
   this->curState = other->getCurState();
   this->color = other->getColor();
   this->heuristic = other->getHeuristic();
+  this->f = other->getF();
 }
 
 template<typename T>
@@ -98,6 +175,8 @@ template<typename T>
 bool State<T>::operator==(const State<T> &other) const {
   return (pathCost == other.getPathCost());
 }
+
+
 template<typename T>
 void State<T>::setColor(char color1) {
   this->color = color1;

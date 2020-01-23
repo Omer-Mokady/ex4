@@ -18,11 +18,14 @@ class MyTestClientHandler : public ClientHandler {
 //  MyTestClientHandler();
   ~MyTestClientHandler() {};
   void handleClient(int socketNumber);
+  ClientHandler *getClone();
+
  private:
   StringReverser *solver = new StringReverser();
-//  CacheManager<S> *cache = new FileCacheManager<S>(2);
+  CacheManager<S> *cache = new FileCacheManager<S>(2);
 };
-/*
+
+
 template<typename S>
 void MyTestClientHandler<S>::handleClient(int socketNumber){
   char line[1024] = {0};
@@ -39,5 +42,9 @@ void MyTestClientHandler<S>::handleClient(int socketNumber){
   }
 
 }
-*/
+template<typename S>
+ClientHandler *MyTestClientHandler<S>::getClone() {
+  return new MyTestClientHandler();
+}
+
 #endif //EX4__MYTESTCLIENTHANDLER_H_

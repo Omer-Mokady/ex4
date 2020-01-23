@@ -35,11 +35,12 @@ State<T> *BestFirstSearch<T>::Search(Searchable<T> *s) {
   while (_open->size() > 0) {
     State<T> n = _open->top(); //the top of the priority queue.
     _open->pop();
-    counter++;
+    this->counter++;
     _queueTracker->erase(n);
     closed->insert(n);
     if (s->isGoalState(n)) {
       State<T> *ret = new State<T>(&n);
+      ret->numEvaluate = this->getNodesNumber();
       cout << "found solution in BestFS" << endl;
       return ret;
     }
@@ -69,7 +70,12 @@ State<T> *BestFirstSearch<T>::Search(Searchable<T> *s) {
         }
       }
     }
-  }
+//    if(this->counter > s->matrixSize + 10) {
+//      cout << "infinity in best!!!!!!!!!!" << endl;
+//      return nullptr;
+//    }
+  } // end of while loop
+  return nullptr;
 }
 
 //
@@ -107,7 +113,7 @@ void BestFirstSearch<T>::relocateInQueue(State<T> s, int newCost, priority_queue
   State<T> temp = q->top();
   q->pop();
   if (temp.equals(s)) {
-    temp.setCost(newCost);
+    temp.setPathCost(newCost);
     q->push(temp);
   } else {
     while (!temp.equals(s)) {
@@ -115,7 +121,7 @@ void BestFirstSearch<T>::relocateInQueue(State<T> s, int newCost, priority_queue
       temp = q->top();
       q->pop();
     }
-    temp.setCost(newCost);
+    temp.setPathCost(newCost);
     while (placeHolder.size() > 0) {
       q->push(placeHolder.top());
       placeHolder.pop();

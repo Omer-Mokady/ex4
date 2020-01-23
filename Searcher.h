@@ -14,7 +14,10 @@ using namespace std;
 template<typename T>
 class Searcher {
  public:
-//  virtual ~Searchable() {};
+  /**
+   * looking for State object Solution, for certain problem.
+   * @return State object Solution
+   */
   virtual State<T>* Search(Searchable<T> *) = 0;
 };
 #endif //EX4__SEARCHER_H_
