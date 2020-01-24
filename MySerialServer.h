@@ -15,7 +15,7 @@ class MySerialServer : public Server {
   ~MySerialServer();
   void open(int portNumber, ClientHandler *c) override;
   void stop(int socketToClose) override;
-  void Start(int port, ClientHandler *clientHandler);
+  void Start(int, ClientHandler *clientHandler);
 };
 
 #endif //EX4__MYSERIALSERVER_H_

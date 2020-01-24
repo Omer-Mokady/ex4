@@ -46,7 +46,7 @@ State<T> *BestFirstSearch<T>::Search(Searchable<T> *s) {
     }
     auto successors = s->getAllPossibleStates(n); // creating list of adjacent cells in matrix.
     typename list<State<pair<int, int>> *>::iterator it = successors.begin();
-    for (it; it != successors.end(); advance(it, 1)) {
+    for (; it != successors.end(); advance(it, 1)) {
       if (!isInClosedSet(*(*it), closed) && !isInQueue(*(*it), _queueTracker)) { //not in queue and not in closed set.
         State<T> temp = new State<T>(*it);
         temp.setCameFrom(&n); //setting the previous as n.
@@ -83,7 +83,7 @@ template<typename T>
 bool BestFirstSearch<T>::isInQueue(State<T> s, multiset<State<T>> *tracker) {
   multiset<State<T>> *copy = tracker;
   typename multiset<State<T>>::iterator it = copy->begin();
-  for (it; it != copy->end(); advance(it, 1)) {
+  for (; it != copy->end(); advance(it, 1)) {
     if (s.equals(*(it))) {
 //      cout << "found it!" << endl;
       return true;
@@ -99,7 +99,7 @@ template<typename T>
 bool BestFirstSearch<T>::isInClosedSet(State<T> s, multiset<State<T>> *closed) {
   multiset<State<T>> *copy = closed;
   typename multiset<State<T>>::iterator it = copy->begin();
-  for (it; it != copy->end(); advance(it, 1)) {
+  for (; it != copy->end(); advance(it, 1)) {
     if (s.equals(*(it))) {
       return true;
     }

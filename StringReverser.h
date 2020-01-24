@@ -8,11 +8,10 @@
 #include <string>
 
 using namespace std;
-
-class StringReverser : public Solver<string, string>{
+class StringReverser : public Solver<string, string> {
 
  public:
-  ~StringReverser(){};
+  ~StringReverser() {};
   string solve(string);
   Solver *getClone();
 };

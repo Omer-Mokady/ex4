@@ -54,7 +54,7 @@ State<T> *AstarNew<T>::Search(Searchable<T> *s) {
     _closed->insert(q);
     auto successors = s->getAllPossibleStates(q);
     typename list<State<pair<int, int>> *>::iterator it = successors.begin();
-    for (it; it != successors.end(); advance(it, 1)) {// for every adjacent to q.
+    for (; it != successors.end(); advance(it, 1)) {// for every adjacent to q.
       inOpen = false;
       inClosed = false;
       State<T> successor = new State<T>(*it);
@@ -102,7 +102,7 @@ template<typename T>
 bool AstarNew<T>::isInOpenQueue(State<T> state, multiset<State<T>, Comperator<T>> *Q) {
   multiset<State<T>, Comperator<T>> *copy = Q;
   typename multiset<State<T>>::iterator it = copy->begin();
-  for (it; it != copy->end(); advance(it, 1)) {
+  for (; it != copy->end(); advance(it, 1)) {
     if (state.equals(*it)) {
       return true;
     }
@@ -113,7 +113,7 @@ template<typename T>
 bool AstarNew<T>::isInClosedSet(State<T> state, multiset<State<T>> *C) {
   multiset<State<T>> *copy = C;
   typename multiset<State<T>>::iterator it = copy->begin();
-  for (it; it != copy->end(); advance(it, 1)) {
+  for (; it != copy->end(); advance(it, 1)) {
     if (state.equals(*it)) {
       return true;
     }

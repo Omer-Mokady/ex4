@@ -10,7 +10,7 @@ void MyParallelServer::open(int portNumber, ClientHandler *clientHandler) {
   if (socketfd == -1) {
     throw "Could not create a socket\n";
   } else {
-    cout << "socket created" << endl;
+//    cout << "socket created" << endl;
   }
   sockaddr_in address;
   address.sin_family = AF_INET;
@@ -21,20 +21,20 @@ void MyParallelServer::open(int portNumber, ClientHandler *clientHandler) {
   if (bind(socketfd, (struct sockaddr *) &address, sizeof(address)) == -1) {
     throw "Could not bind the socket to the ip\n";
   } else {
-    cout << "bind the socket to the ip" << endl;
+//    cout << "bind the socket to the ip" << endl;
   }
 
   if (listen(socketfd, 1) == -1) {
     throw "Error during listening command\n";
   } else {
-    cout << "listening command is ok" << endl;
+//    cout << "listening command is ok" << endl;
   }
   this->socketNumber = socketfd;
   thread starter([clientHandler, portNumber, this] { Start(portNumber, clientHandler); });
   starter.join();
 }
 
-void MyParallelServer::Start(int port, ClientHandler *clientHandler) {
+void MyParallelServer::Start(int, ClientHandler *clientHandler) {
   struct sockaddr_in cli_addr;
   int newsockfd, clilen;
   clilen = sizeof(cli_addr);
@@ -43,9 +43,9 @@ void MyParallelServer::Start(int port, ClientHandler *clientHandler) {
   tv.tv_usec = 0;
   setsockopt(this->socketNumber, SOL_SOCKET, SO_RCVTIMEO, (const char *) &tv, sizeof tv);
   while (true) {
-    cout << "inside parallel while!" << endl;
+//    cout << "inside parallel while!" << endl;
     newsockfd = accept(this->socketNumber, (struct sockaddr *) &cli_addr, (socklen_t *) &clilen);
-    cout << "opened socket " << newsockfd << endl;
+//    cout << "opened socket " << newsockfd << endl;
     if (newsockfd == -1) {
       if (errno == EWOULDBLOCK) {
         cout << "timeOut!\n";

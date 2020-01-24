@@ -37,7 +37,7 @@ void MySerialServer::open(int portNumber, ClientHandler *clientHandler) {
   starter.join();
 }
 
-void MySerialServer::Start(int port, ClientHandler *clientHandler) {
+void MySerialServer::Start(int, ClientHandler *clientHandler) {
   struct sockaddr_in cli_addr;
   int newsockfd, clilen;
   clilen = sizeof(cli_addr);
