@@ -29,13 +29,13 @@ __Goals__
 
 - [X] Create representation for a problem as a matrix - supporting non simetric matrices.
 
-- [X] Implememt Breadth First Search Algorithm for a generic problem.
+- [X] Implememt [Breadth First Search](https://en.wikipedia.org/wiki/Breadth-first_search) Algorithm for a generic problem.
 
-- [X] Implememt Depth First Search Algorithm for a generic problem.
+- [X] Implememt [Depth First Search](https://en.wikipedia.org/wiki/Depth-first_search) Algorithm for a generic problem.
 
-- [X] Implememt Best First Search Algorithm for a generic problem.
+- [X] Implememt [Best First Search](https://en.wikipedia.org/wiki/Best-first_search) Algorithm for a generic problem.
 
-- [X] Implememt A Star Search Algorithm for a generic problem.
+- [X] Implememt [A Star Search Algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) for a generic problem.
 #
 __How It Works?__
 
