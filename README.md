@@ -11,7 +11,7 @@ __Coding Style__
 
 __Our Mission__
 
-We got created a generic problem solver using c++ language, keep on the Solid programming principle during the project.
+We created a generic problem solver using c++ language, keep on the Solid programming principle during the project.
 
 We are using cache manager that we built for saving problems that we already solved along the problem, so we would be able to load them in O(1). 
 
