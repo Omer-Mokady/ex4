@@ -19,5 +19,7 @@ class Searcher {
    * @return State object Solution
    */
   virtual State<T>* Search(Searchable<T> *) = 0;
+  virtual ~Searcher() {};
+
 };
 #endif //EX4__SEARCHER_H_

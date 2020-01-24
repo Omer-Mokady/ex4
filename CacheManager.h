@@ -18,6 +18,7 @@ class CacheManager {
   // limit size of space in the cache
   unsigned int limitSize = 5;
  public:
+  virtual ~CacheManager() {};
   // the cache;
   unordered_map<string, typename list<pair<string, S>>::iterator> cacheMap;
   // list for priority for the cache
