@@ -51,7 +51,8 @@ void MyClientHandler<P, S>::handleClient(int socketNumber) {
 //  string start;
 //  string end;
   string input = "", tempStr, strSolution, inputForSearch = "";
-  char line[1024] = {0};
+  // !!!!!!!!!!!!!!!!!!!!1 now without this line
+//  char line[1024] = {0};
   string problem1;
   bool endOfInput = false;
 
@@ -69,11 +70,13 @@ void MyClientHandler<P, S>::handleClient(int socketNumber) {
 
 //  cout << "end of reading" << endl;
   input = deleteSpaces(input);
-  int startPoint = 0, i = 0, counterCommas = 0;
+  // !!!!!!!!!!!!!!!!!!!!!!!! change unsigned
+  int startPoint = 0, counterCommas = 0;
+  unsigned int i = 0;
   bool oneCommaBefore = false;
   string tempStr1 = "";
   for (i = 0; i < input.length() - 1; i++) {
-    cout << input[i] << endl;
+//    cout << input[i] << endl;
     if (input.find("end") == i) {
       break;
     }
@@ -135,7 +138,7 @@ string MyClientHandler<P, S>::getSolution(string input) {
   S solution;
   // create our problem object
   Searchable<pair<int, int>> *problemObj = new MatrixProblem(strMatrix, initial, goal);
-  P newObj;
+//  P newObj;
   string strProblem = MatrixProblem::toString(input);
   // try to load solution
   if (this->cache->checkSolutionExistent(strProblem)) {

@@ -119,7 +119,7 @@ class FileCacheManager : public CacheManager<S> {
 
   bool checkSolutionExistent(string key) {
     ifstream inFile;
-    S newObj;
+//    S newObj;
     typename unordered_map<string,typename list<pair<string,S>>::iterator>::iterator itMap
         = this->cacheMap.find(key);
     // if the key is not exists in the map

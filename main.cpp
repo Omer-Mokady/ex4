@@ -16,13 +16,13 @@
 #include "BFSAlgo.h"
 #include "MyParallelServer.h"
 #include "BestFirstSearch.h"
-#include "AstarAlgo.h"
 using namespace std;
 
 namespace boot {
 class Main {
  public:
-  int main(int port) {
+  // !!!!!!!!!!!!! changed from "int" to "void"
+  void main(int port) {
     MyParallelServer *s = new MyParallelServer();
 //  MySerialServer *s = new MySerialServer();
     CacheManager<State<pair<int, int>> *> *cache = new FileCacheManager<State<pair<int, int>> *>(5);

@@ -186,16 +186,16 @@ char State<T>::getColor() {
   return this->color;
 }
 template<typename T>
-void State<T>::setCost(int cost) {
-  this->cost = cost;
+void State<T>::setCost(int cost1) {
+  this->cost = cost1;
 }
 template<typename T>
 int State<T>::getPathCost() {
   return this->pathCost;
 }
 template<typename T>
-void State<T>::setPathCost(int cost) {
-  this->pathCost = cost;
+void State<T>::setPathCost(int cost1) {
+  this->pathCost = cost1;
 }
 template<typename T>
 State<T>::State() {

@@ -45,9 +45,11 @@ class MatrixProblem : public Searchable<pair<int, int>> {
     // get name
     this->name = str;
     vector<vector<State<pair<int, int>> *>> vect;
-    int rowNum = 0, colNum = 0, i = 0, firstIndex = 0, value = 0;
+    int rowNum = 0, colNum = 0, firstIndex = 0, value = 0;
+    // added new!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+    unsigned int i=0;
     string tempStr;
-    bool finish = false;
+//    bool finish = false;
     // create matrix field
     State<pair<int, int>> *newState;
     // read all the matrix data
