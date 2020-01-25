@@ -15,7 +15,7 @@
 #include <unordered_set>
 #include <iterator>
 #include <list>
-#include "QueueComperator.h"
+#include "QueueComparator.h"
 template<typename T>
 class AstarNew : public Searcher<T> {
  public:
@@ -27,16 +27,16 @@ class AstarNew : public Searcher<T> {
   int counter = 0;
   bool inOpen = false;
   bool inClosed = false;
-  multiset<State<T>, Comperator<T>> *_open = new multiset<State<T>, Comperator<T>>();
-//  priority_queue<State<T>> *_open = new priority_queue<State<T>>;
-//  multiset<State<T>> *_queueTracker = new multiset<State<T>>();
+  multiset<State<T>, Comparator<T>> *_open = new multiset<State<T>, Comparator<T>>();
   multiset<State<T>> *_closed = new multiset<State<T>>();
-
-  bool isInOpenQueue(State<T> state, multiset<State<T>, Comperator<T>> *Q);
+  bool isInOpenSet(State<T> state, multiset<State<T>, Comparator<T>> *Q);
   bool isInClosedSet(State<T> state, multiset<State<T>> *C);
-  int calculateHeuristic(State<T> first, State<T> goal);
+  int calculateHeuristic(State<T> curr, State<T> goal);
 };
-//////////////////start of Search///////////////////////
+/**
+ * described in Searcher.h.
+ * @tparam T the parameter of the State and the Searchable objects.
+ */
 template<typename T>
 State<T> *AstarNew<T>::Search(Searchable<T> *s) {
   s->getInitialState()->setPathCost(0);
@@ -62,7 +62,7 @@ State<T> *AstarNew<T>::Search(Searchable<T> *s) {
       if (isInClosedSet(successor, _closed)) { // check if in closed list.
         inClosed = true;
       }
-      if (isInOpenQueue(successor, _open)) { // check if in open list.
+      if (isInOpenSet(successor, _open)) { // check if in open list.
         inOpen = true;
       }
       if (!inOpen && !inClosed) { // not in both of the list.
@@ -96,11 +96,17 @@ State<T> *AstarNew<T>::Search(Searchable<T> *s) {
   } // end of while loop.
   return nullptr;
 }
-//////////////////end of Search///////////////////////
 
+/**
+ * search and find if a given state is in our _open multiset.
+ * @tparam T the state object parameter.
+ * @param state the object we want to find in the set.
+ * @param Q the multiset we want to look in for the state.
+ * @return true if we found it, false otherwise.
+ */
 template<typename T>
-bool AstarNew<T>::isInOpenQueue(State<T> state, multiset<State<T>, Comperator<T>> *Q) {
-  multiset<State<T>, Comperator<T>> *copy = Q;
+bool AstarNew<T>::isInOpenSet(State<T> state, multiset<State<T>, Comparator<T>> *Q) {
+  multiset<State<T>, Comparator<T>> *copy = Q;
   typename multiset<State<T>>::iterator it = copy->begin();
   for (; it != copy->end(); advance(it, 1)) {
     if (state.equals(*it)) {
@@ -109,6 +115,13 @@ bool AstarNew<T>::isInOpenQueue(State<T> state, multiset<State<T>, Comperator<T>
   }
   return false;
 }
+/**
+ * search and find if a given state is in our _closed multiset.
+ * @tparam T the state object parameter.
+ * @param s the object we want to find in the set.
+ * @param closed the multiset we want to look in for state s.
+ * @return true if we found it, false otherwise.
+ */
 template<typename T>
 bool AstarNew<T>::isInClosedSet(State<T> state, multiset<State<T>> *C) {
   multiset<State<T>> *copy = C;
@@ -120,11 +133,24 @@ bool AstarNew<T>::isInClosedSet(State<T> state, multiset<State<T>> *C) {
   }
   return false;
 }
+/**
+ * in this algorithm the heuristic function is a cartesian function, based on the distance between a location to the
+ * goal state of the given problem.
+ * @tparam T the parameter of the States.
+ * @param curr the current place - we want his heuristic value.
+ * @param goal the goal place.
+ * @return the distance on a cartesian greed between the current state to goal state.
+ */
 template<typename T>
 int AstarNew<T>::calculateHeuristic(State<T> curr, State<T> goal) {
   return abs(curr.getCurState().first - goal.getCurState().first)
       + abs(curr.getCurState().second - goal.getCurState().second);
 }
+/**
+ * returning the number of nodes we work on them during the search.
+ * @tparam T the parameter of the Searcher.
+ * @return the number of nodes we work on them during the search.
+ */
 template<typename T>
 int AstarNew<T>::getNodesNumber() {
   return this->counter;

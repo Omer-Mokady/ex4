@@ -11,8 +11,20 @@ using namespace std;
 class StringReverser : public Solver<string, string> {
 
  public:
+  /**
+   * default destructor.
+   */
   ~StringReverser() {};
-  string solve(string);
+  /**
+   * gets a string and returning in backwards.
+   * @param s the string in it's original form.
+   * @return s in reversed.
+   */
+  string solve(string s);
+  /**
+   * cloning the Solver.
+   * @return a new object of String Reverser.
+   */
   Solver *getClone();
 };
 

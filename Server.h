@@ -12,26 +12,29 @@
 #include <iostream>
 using namespace std;
 namespace server_side {
+/**
+ * Server Interface
+ */
+class Server {
+ public:
   /**
-   * Server Interface
+   * default destructor.
    */
-  class Server {
-   public:
-    virtual ~Server() {}
-    /**
-   * open a socket
-   * @param portNumber port to listen on.
-   * @param c ClientHandler Object.
+  virtual ~Server() {}
+  /**
+ * open a socket over TCP protocol on the given port number.
+ * @param portNumber port to listen on.
+ * @param c ClientHandler Object to handle the clients connecting to our socket.
+ */
+  virtual void open(int portNumber, ClientHandler *c) = 0;
+  /**
+   * closing the socket given as parameter.
+   * @param socketToClose the socket need to be closed.
    */
-    virtual void open(int portNumber, ClientHandler *c) = 0;
-    /**
-     * closing the socket.
-     */
-    virtual void stop(int socketToClose) = 0;
-   protected:
-    int socketNumber;
-  };
+  virtual void stop(int socketToClose) = 0;
+ protected:
+  int socketNumber;
+};
 }
-
 
 #endif //EX4__SERVER_H_

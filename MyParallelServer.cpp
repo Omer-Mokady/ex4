@@ -10,7 +10,7 @@ void MyParallelServer::open(int portNumber, ClientHandler *clientHandler) {
   if (socketfd == -1) {
     throw "Could not create a socket\n";
   } else {
-//    cout << "socket created" << endl;
+    cout << "socket created" << endl;
   }
   sockaddr_in address;
   address.sin_family = AF_INET;
@@ -21,17 +21,17 @@ void MyParallelServer::open(int portNumber, ClientHandler *clientHandler) {
   if (bind(socketfd, (struct sockaddr *) &address, sizeof(address)) == -1) {
     throw "Could not bind the socket to the ip\n";
   } else {
-//    cout << "bind the socket to the ip" << endl;
+    cout << "bind the socket to the ip" << endl;
   }
 
   if (listen(socketfd, 1) == -1) {
     throw "Error during listening command\n";
   } else {
-//    cout << "listening command is ok" << endl;
+    cout << "listening command is ok" << endl;
   }
   this->socketNumber = socketfd;
   thread starter([clientHandler, portNumber, this] { Start(portNumber, clientHandler); });
-  starter.join();
+  starter.join(); // wail till this thread is finished - which mean all clients got their answers.
 }
 
 void MyParallelServer::Start(int, ClientHandler *clientHandler) {
@@ -56,7 +56,7 @@ void MyParallelServer::Start(int, ClientHandler *clientHandler) {
       }
     }
     thread handler([clientHandler, newsockfd, this] { ClientHandlerThread(newsockfd, clientHandler); });
-    handler.detach();
+    handler.detach(); //supporting multiple receiving to the socket.
   }
 
   this->stop(this->socketNumber);
@@ -66,7 +66,6 @@ void MyParallelServer::stop(int socketToClose) {
 }
 
 void MyParallelServer::ClientHandlerThread(int socket, ClientHandler *clientHandler) {
-  //check if we need to use copy constructor for clientHandler ot mutex.
   ClientHandler *clientHandler2 = clientHandler->getClone();
   clientHandler2->handleClient(socket);
   this->stop(socket);
