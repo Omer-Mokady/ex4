@@ -14,12 +14,24 @@ class State {
   int f;
   // evaluate value from algorithm
   int numEvaluate = 0;
+  /**
+   * a getter to the f value in A Star.
+   * @return this f value as const for the QueueComparator.h use.
+   */
   int getConstF() const {
     return this->f;
   }
+  /**
+   * a getter to the f value in A Star.
+   * @return this f value.
+   */
   int getF() {
     return this->f;
   }
+  /**
+   * a setter for the f value field.
+   * @param val the value we want our state to hold.
+   */
   void setF(int val) {
     this->f = val;
   }
@@ -69,13 +81,22 @@ class State {
    * @param cost cost value
    */
   void setCost(int cost);
-  // operators
+  /**
+   * a lessThan override for states.
+   * @param other the object we want to compare this with.
+   * @return true if this > other, false otherwise.
+   */
   bool operator<(const State<T> &other) const {
     if (pathCost != other.pathCost) {
       return (pathCost > other.pathCost);
     }
     return (cost > other.pathCost);
   }
+  /**
+   * an equal comparator override.
+   * @param other the object we want to compare this with.
+   * @return true if both have the same coordinates, false otherwise.
+   */
   bool operator==(const State<T> &other) const;
   /**
    * set color value
@@ -172,7 +193,6 @@ template<typename T>
 bool State<T>::operator==(const State<T> &other) const {
   return (pathCost == other.getPathCost());
 }
-
 
 template<typename T>
 void State<T>::setColor(char color1) {

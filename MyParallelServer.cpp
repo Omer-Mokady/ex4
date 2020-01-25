@@ -10,7 +10,7 @@ void MyParallelServer::open(int portNumber, ClientHandler *clientHandler) {
   if (socketfd == -1) {
     throw "Could not create a socket\n";
   } else {
-    cout << "socket created" << endl;
+//    cout << "socket created" << endl;
   }
   sockaddr_in address;
   address.sin_family = AF_INET;
@@ -21,13 +21,13 @@ void MyParallelServer::open(int portNumber, ClientHandler *clientHandler) {
   if (bind(socketfd, (struct sockaddr *) &address, sizeof(address)) == -1) {
     throw "Could not bind the socket to the ip\n";
   } else {
-    cout << "bind the socket to the ip" << endl;
+//    cout << "bind the socket to the ip" << endl;
   }
 
   if (listen(socketfd, 1) == -1) {
     throw "Error during listening command\n";
   } else {
-    cout << "listening command is ok" << endl;
+//    cout << "listening command is ok" << endl;
   }
   this->socketNumber = socketfd;
   thread starter([clientHandler, portNumber, this] { Start(portNumber, clientHandler); });
