@@ -19,8 +19,14 @@ using namespace std;
 
 template<typename P, typename S>
 class MyClientHandler : public ClientHandler {
-
+  /**
+   * Destructor
+   */
   ~MyClientHandler() {};
+  /**
+   * get problem from client and bring him back solution
+   * @param socketNumber socket number
+   */
   void handleClient(int socketNumber);
   /**
    * delete string's spaces
@@ -28,17 +34,37 @@ class MyClientHandler : public ClientHandler {
    * @return the current string without spaces
    */
   string deleteSpaces(string str);
+  /**
+   * get solution info and bring solution (string type)
+   * @param input (string type) solution info
+   * @return solution (string type)
+   */
   string getSolution(string input);
+  /**
+   * convert solution from state pointer, into string
+   * @return solution (type string)
+   */
   string fromMatrixGoalStateToString(S);
+  /**
+   * compare between 2 states for a path
+   */
   string compareMatrixStates(State<pair<int, int>> first, State<pair<int, int>> second);
  private:
-//  CacheManager<S> *cache = new FileCacheManager<S>(5);
+  // cache memory
   CacheManager<S> *cache;
-
-//  Solver<P,S> *solver = new ObjectAdapter<P,S>();
+  // solver Object
   Solver<P, S> *solver;
  public:
+  /**
+   * Constructor
+   * @param cache cache memory
+   * @param solver solver Object
+   */
   MyClientHandler(CacheManager<S> *cache, Solver<P, S> *solver);
+  /**
+   * get a copy of the Object
+   * @return copy of the Object
+   */
   ClientHandler *getClone() {
     return new MyClientHandler(this->cache, this->solver->getClone());
   }
@@ -46,31 +72,21 @@ class MyClientHandler : public ClientHandler {
 };
 template<typename P, typename S>
 void MyClientHandler<P, S>::handleClient(int socketNumber) {
-//  int counter = 0;
   cout << "inside handleClient" << endl;
-//  string start;
-//  string end;
   string input = "", tempStr, strSolution, inputForSearch = "";
-  // !!!!!!!!!!!!!!!!!!!!1 now without this line
-//  char line[1024] = {0};
   string problem1;
   bool endOfInput = false;
-
+  // get problem info
   while (!endOfInput) {
     char line[1024] = {0};
     read(socketNumber, line, 1024);
     tempStr = line;
-//    cout << "tempStr " << line << endl;
     input = input + tempStr;
-//    cout << "input " << input << endl;
     if (input.find("end") != std::string::npos) {
       endOfInput = true;
     }
   }
-
-//  cout << "end of reading" << endl;
   input = deleteSpaces(input);
-  // !!!!!!!!!!!!!!!!!!!!!!!! change unsigned
   int startPoint = 0, counterCommas = 0;
   unsigned int i = 0;
   bool oneCommaBefore = false;
@@ -87,12 +103,9 @@ void MyClientHandler<P, S>::handleClient(int socketNumber) {
         if (!oneCommaBefore) {
           oneCommaBefore = true;
         } else {
-          cout << "inputForSearch: " << inputForSearch << endl;
           inputForSearch = input.substr(startPoint, i + 1);
           startPoint = i + 1;
-
           strSolution = getSolution(inputForSearch);
-//          cout << "we found final solution: " << strSolution << endl;
           send(socketNumber, strSolution.c_str(), strSolution.length(), 0);
           oneCommaBefore = false;
         }
@@ -100,14 +113,6 @@ void MyClientHandler<P, S>::handleClient(int socketNumber) {
       counterCommas = 0;
     }
   }
-
-
-
-
-//  input = deleteSpaces(input);
-//  strSolution = getSolution(input);
-//  cout << "we found final solution: " << strSolution << endl;
-
 }
 
 template<typename P, typename S>
@@ -134,42 +139,32 @@ string MyClientHandler<P, S>::getSolution(string input) {
   goal = input.substr(initialEndIndex + 1, goalEndIndex - initialEndIndex);
   initial = input.substr(initialStartIndex + 1, initialEndIndex - initialStartIndex);
   strMatrix = input.substr(0, initialStartIndex + 1);
-
   S solution;
   // create our problem object
   Searchable<pair<int, int>> *problemObj = new MatrixProblem(strMatrix, initial, goal);
-//  P newObj;
   string strProblem = MatrixProblem::toString(input);
   // try to load solution
   if (this->cache->checkSolutionExistent(strProblem)) {
-    cout << "already have the solution for this problem.\n" << endl;
     try {
       solution = this->cache->get(strProblem);
-      cout << "we got the solution from cache or disc\n" << endl;
     } catch (const char *e) {
-      cout << "error1" << endl;
       cout << e << endl;
     }
     // create solution
   } else {
     solution = this->solver->solve(problemObj);
-    cout << "don't have the solution for this problem yet.\n" << endl;
     try {
       this->cache->insert(strProblem, solution);
-      cout << "we added the solution to the cache" << endl;
     } catch (const char *e) {
-      cout << "error2" << endl;
       cout << e << endl;
     }
   }
   if(solution == nullptr) {
-    cout << "Our final solution is nullpointer" << endl;
     strSolution = "there is no access to the goal.\n";
     return strSolution;
   }
   strSolution = fromMatrixGoalStateToString(solution);
   cout << strSolution << endl;
-  cout << "we found solution" << endl;
   return strSolution;
 }
 

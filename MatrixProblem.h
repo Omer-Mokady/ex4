@@ -19,7 +19,6 @@ class MatrixProblem : public Searchable<pair<int, int>> {
 
   string name;
  public:
-
   // originial matrix
   vector<vector<State<pair<int, int>> *>> matrix;
   // initial state
@@ -49,7 +48,6 @@ class MatrixProblem : public Searchable<pair<int, int>> {
     // added new!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
     unsigned int i=0;
     string tempStr;
-//    bool finish = false;
     // create matrix field
     State<pair<int, int>> *newState;
     // read all the matrix data

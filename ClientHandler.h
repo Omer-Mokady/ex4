@@ -14,8 +14,19 @@
 
 class ClientHandler {
  public:
+  /**
+   * get problem from client and bring him back solution
+   * @param socketNumber socket number
+   */
   virtual void handleClient(int socketNumber) = 0;
+  /**
+   * Destructor
+   */
   virtual ~ClientHandler() {}
+  /**
+   * get copy of the Object
+   * @return copy of the Object
+   */
   virtual ClientHandler *getClone() = 0;
 };
 

@@ -13,7 +13,6 @@ list<State<pair<int, int>> *> MatrixProblem::getAllPossibleStates(State<pair<int
   int rowSize = this->matrix.size();
   // get upper state
   if (row > 0) {
-//    statesList.push_front(*(this->matrix[row - 1][col]));
     if (this->matrix[row - 1][col]->getCost() != -1) {
       statesList.push_front((this->matrix[row - 1][col]));
     }
@@ -22,7 +21,6 @@ list<State<pair<int, int>> *> MatrixProblem::getAllPossibleStates(State<pair<int
   if (!matrix.empty()) {
     colSize = this->matrix[0].size();
     if (col < colSize - 1) {
-//      statesList.push_front(*(this->matrix[row + 1][col]));
       if (this->matrix[row][col + 1]->getCost() != -1) {
         statesList.push_front((this->matrix[row][col + 1]));
       }
@@ -30,14 +28,12 @@ list<State<pair<int, int>> *> MatrixProblem::getAllPossibleStates(State<pair<int
   }
   // get left state
   if (col > 0) {
-//    statesList.push_front(*(this->matrix[row][col - 1]));
     if (this->matrix[row][col - 1]->getCost() != -1) {
       statesList.push_front((this->matrix[row][col - 1]));
     }
   }
   // get lower state
   if (row < rowSize - 1) {
-//    statesList.push_front(*(this->matrix[row][col + 1]));
     if ((this->matrix[row + 1][col])->getCost() != -1) {
       statesList.push_front((this->matrix[row + 1][col]));
     }

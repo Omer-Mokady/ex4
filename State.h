@@ -10,9 +10,9 @@
 using namespace std;
 template<typename T>
 class State {
-  //end
  public:
   int f;
+  // evaluate value from algorithm
   int numEvaluate = 0;
   int getConstF() const {
     return this->f;
@@ -69,17 +69,14 @@ class State {
    * @param cost cost value
    */
   void setCost(int cost);
-
-//  //added by gal on 18.1
+  // operators
   bool operator<(const State<T> &other) const {
     if (pathCost != other.pathCost) {
       return (pathCost > other.pathCost);
     }
     return (cost > other.pathCost);
   }
-
   bool operator==(const State<T> &other) const;
-
   /**
    * set color value
    * @param color color value

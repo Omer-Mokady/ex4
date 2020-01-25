@@ -20,6 +20,7 @@ State<T> *DFSAlgo<T>::Search(Searchable<T> *problem) {
   int counterEvaluate = 0;
   typename list<State<T> *>::iterator itList;
   stack<State<T>> stackStates;
+  // first element
   State<T> *firstV = problem->getInitialState();
   stackStates.push(*(problem->getInitialState()));
   firstV->setColor('b');
@@ -39,24 +40,18 @@ State<T> *DFSAlgo<T>::Search(Searchable<T> *problem) {
       // check all neighbors
       while (itList != adjList.end()) {
         // check if the adj was visited brfore
-//        char a = (*(itList))->getColor();
         if ((*(itList))->getColor() != 'b') {
           State<T> *adjV = (*(itList));
           adjV->setColor('b');
           adjV = new State<T>(*(itList));
-//          cout << "check" << endl;
           adjV->setCameFrom(&v);
           adjV->setPathCost(adjV->getCost()+v.getPathCost());
           stackStates.push(*adjV);
-//          cout << "check color" << endl;
         }
         advance(itList, 1);
       } // end of while loop for adj
     }
-//    cout << "inside while that waiting for empty stack" << endl;
-
   } // end of while loop for taking v from the stack
-  cout << "error: didn't find the goal" << endl;
   return nullptr;
 }
 

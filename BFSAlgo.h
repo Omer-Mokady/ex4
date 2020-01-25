@@ -18,6 +18,7 @@ State<T> *BFSAlgo<T>::Search(Searchable<T> *problem) {
   int counterEvaluate = 0;
   typename list<State<T>*>::iterator itList;
   queue<State<T>> qStates;
+  // first element
   State<T> *firstV = problem->getInitialState();
   qStates.push(*(problem->getInitialState()));
   firstV->setColor('B');
